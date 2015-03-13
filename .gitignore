@@ -5,8 +5,4 @@ my-own-auth.json
 turk/*/production-results/
 turk/*/sandbox-results/
 .RData
-<<<<<<< HEAD
 .Rhistory
-=======
-.Rhistory
->>>>>>> 344b4d9c55cd65e86660081677808ea7ae805374
