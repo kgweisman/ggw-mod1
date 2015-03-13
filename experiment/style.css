@@ -82,6 +82,7 @@ h2 {
 .legal {
 	text-align: justify;
 	font-style: italic;
+	font-size: 10px;
 }
 
 .block-text#character {
