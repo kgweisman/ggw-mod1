@@ -16,12 +16,12 @@ rm(list=ls())
 dev.off()
 
 # read in data: character means
-d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01_2015-03-13_charmeans.csv")[-1] # get rid of column of obs numbers
+d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02_2015-03-16_charmeans.csv")[-1] # get rid of column of obs numbers
 
 glimpse(d)
 
 # read in data: individual scores
-dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01_2015-03-13_data_anonymized.csv")[-1] # get rid of column of obs numbers
+dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02_2015-03-16_data_anonymized.csv")[-1] # get rid of column of obs numbers
 
 glimpse(dd)
 
@@ -59,6 +59,8 @@ d1 = charmeans_table[-1]
 rownames(d1) = charnames
 print(d1)
 
+d %>% group_by(condition) %>% distinct(subid) %>% summarise(n = length(subid))
+
 # make table of mental capacity means by character
 # formatted in wideform with characters as rows
 condmeans = charmeans %>%
@@ -76,35 +78,34 @@ print(d3)
 # - should look again at >2 factors when we have more data
 # - good resource: http://www.colorado.edu/geography/class_homepages/geog_4023_s11/Lecture18_PCA.pdf
 
-# --------> 4-factor (maximal) PCA (UNrotated, using principal) ----------
+# --------> 11-factor (maximal) PCA (UNrotated, using principal) ----------
 
 # extract factors
-pca_A4 = principal(d1, nfactors = 4, rotate = "none"); pca_A4
+pca_A11 = principal(d1, nfactors = 11, rotate = "none"); pca_A11
 # retain 2 components (prop var > 5-10%)
-# retain 1 component? (cumulative prop var > 70%... but < 100%?)
+# retain 5 components? (cumulative prop var > 70%... but < 100%?)
 
 # extract eigenvalues
-pca_A4$values # retain 2 components (eigenvalue > 1)
+pca_A11$values # retain 2 components (eigenvalue > 1)
 
 # scree test
-qplot(y = pca_A4$values) +
+qplot(y = pca_A11$values) +
   theme_bw() +
   labs(title = "Scree test for 4-factor (maximal) PCA",
        x = "Component",
        y = "Eigenvalue") +
-  geom_line() # retain 2-3 components (left of "break")
+  geom_line() # retain 2 components (left of "break")
 
-# extract PCA loadings
-pca_A4_pc1 = pca_A4$loadings[,1]; pca_A4_pc1
-pca_A4_pc2 = pca_A4$loadings[,2]; pca_A4_pc2
-pca_A4_pc3 = pca_A4$loadings[,3]; pca_A4_pc3
-pca_A4_pc4 = pca_A4$loadings[,4]; pca_A4_pc4
+# extract PCA loadings for first 2 factors
+pca_A11_pc1 = pca_A11$loadings[,1]; pca_A11_pc1
+pca_A11_pc2 = pca_A11$loadings[,2]; pca_A11_pc2
 
 # --------> 2-factor PCA (varimax rotation, using principal) ----------
 
 # FROM GGW2007: "For each survey, each character appeared in 12 different comparisons, and mean relative ratings were computed for each character across all respondents to that survey. We merged data sets from the 18 mental capacity surveys to compute correlations between mental capacities across the characters, and submitted these to principal components factor analysis with varimax rotation." (SOM p. 3)
 
 # extract factors
+pca_A2_unrot = principal(d1, nfactors = 2, rotate = "none"); pca_A2_unrot
 pca_A2 = principal(d1, nfactors = 2, rotate = "varimax"); pca_A2
 
 # extract eigenvalues
@@ -115,8 +116,8 @@ pca_A2_pc1 = pca_A2$loadings[,1]; pca_A2_pc1
 pca_A2_pc2 = pca_A2$loadings[,2]; pca_A2_pc2
 
 # plot PCs against each other
-# NOTE: need to adjust "1:4" depending on how many conditions are run
-ggplot(data.frame(pca_A2$loadings[1:4,]), aes(x = RC1, y = RC2, label = names(d1))) +
+# NOTE: need to adjust "1:18" depending on how many conditions are run
+ggplot(data.frame(pca_A2$loadings[1:18,]), aes(x = RC1, y = RC2, label = names(d1))) +
   geom_text() +
   theme_bw() +
   labs(title = "Factor loadings\n",
@@ -126,7 +127,7 @@ ggplot(data.frame(pca_A2$loadings[1:4,]), aes(x = RC1, y = RC2, label = names(d1
 # FROM GGW2007: "We used the regression approach to estimate factor scores for each character." (SOM p. 3) 
 # ?principal confirms that "component scores are found by regression"
 
-# plot characters by principle components, PC1 on y-axis
+# plot characters by principal components, PC1 on y-axis
 ggplot(data.frame(pca_A2$scores), aes(x = RC1, y = RC2, label = rownames(d1))) +
   geom_text() +
   theme_bw() +
@@ -550,12 +551,27 @@ print(d1_afterlifeyes)
 # - could also look at unrotated solution by specifying rotate = "none"
 # - should also look at other numbers of factors when we have more data
 
-# --------> 1-factor PCA (varimax rotation, using principal) ----------
-# extract factors
-pca_B1 = principal(d3, nfactors = 1, rotate = "varimax"); pca_B1
+# --------> 11-factor (maximal) PCA (UNrotated, using principal) ----------
 
-# extract PCA loadings
-pca_B1_pc1 = pca_B1$loadings[,1]; pca_B1_pc1
+# extract factors
+pca_B11 = principal(d1, nfactors = 11, rotate = "none"); pca_B11
+# retain 2 components (prop var > 5-10%)
+# retain 5 components? (cumulative prop var > 70%... but < 100%?)
+
+# extract eigenvalues
+pca_B11$values # retain 2 components (eigenvalue > 1)
+
+# scree test
+qplot(y = pca_B11$values) +
+  theme_bw() +
+  labs(title = "Scree test for 4-factor (maximal) PCA",
+       x = "Component",
+       y = "Eigenvalue") +
+  geom_line() # retain 2 components (left of "break")
+
+# extract PCA loadings for first 2 factors
+pca_B11_pc1 = pca_B11$loadings[,1]; pca_B11_pc1
+pca_B11_pc2 = pca_B11$loadings[,2]; pca_B11_pc2
 
 # --------> 2-factor PCA (varimax rotation, using principal) ----------
 # extract factors
@@ -573,7 +589,7 @@ ggplot(data.frame(pca_B2$loadings[1:13,]), aes(x = RC1, y = RC2, label = names(d
        x = "\nRotated PC1",
        y = "Rotated PC2\n")
 
-# plot conditions by principle components
+# plot conditions by principal components
 ggplot(data.frame(pca_B2$scores), aes(x = RC1, y = RC2, label = rownames(d3))) +
   geom_text() +
   theme_bw() +
