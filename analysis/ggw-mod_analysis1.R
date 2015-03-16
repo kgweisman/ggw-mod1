@@ -91,7 +91,7 @@ pca_A11$values # retain 2 components (eigenvalue > 1)
 # scree test
 qplot(y = pca_A11$values) +
   theme_bw() +
-  labs(title = "Scree test for 4-factor (maximal) PCA",
+  labs(title = "Scree test for 11-factor (maximal) PCA",
        x = "Component",
        y = "Eigenvalue") +
   geom_line() # retain 2 components (left of "break")
@@ -181,7 +181,7 @@ pca_B11$values # retain 2 components (eigenvalue > 1)
 # scree test
 qplot(y = pca_B11$values) +
   theme_bw() +
-  labs(title = "Scree test for 4-factor (maximal) PCA",
+  labs(title = "Scree test for 11-factor (maximal) PCA",
        x = "Component",
        y = "Eigenvalue") +
   geom_line() # retain 2 components (left of "break")
