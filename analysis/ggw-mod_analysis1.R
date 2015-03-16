@@ -316,8 +316,22 @@ ggplot(pts, aes(x = x_all, y = y_all, label = character)) +
   geom_text(angle = 0,
             vjust = -1,
             size = 6) +
-  xlim(-1.2, 1.05) +
-  ylim(-0.8, .75) +
+  xlim(-1, 1) +
+  ylim(-1, 1) +
+  theme_bw() +
+  theme(text = element_text(size = 20)) +
+  labs(title = "Multidimensional scaling of characters: All 4 conditions\n",
+       x = NULL,
+       y = NULL)
+
+# plot! rotated...
+ggplot(pts, aes(x = y_all, y = -x_all, label = character)) +
+  geom_point() +
+  geom_text(angle = 0,
+            vjust = -1,
+            size = 6) +
+  ylim(-1, 1) +
+  xlim(-1, 1) +
   theme_bw() +
   theme(text = element_text(size = 20)) +
   labs(title = "Multidimensional scaling of characters: All 4 conditions\n",
