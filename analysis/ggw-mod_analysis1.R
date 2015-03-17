@@ -121,8 +121,8 @@ ggplot(data.frame(pca_A2$loadings[1:18,]), aes(x = RC1, y = RC2, label = names(d
   geom_text() +
   theme_bw() +
   labs(title = "Factor loadings\n",
-       x = "\nRotated Component 2",
-       y = "Rotated Component 1\n")
+       x = "\nRotated Component 1",
+       y = "Rotated Component 2\n")
 
 # FROM GGW2007: "We used the regression approach to estimate factor scores for each character." (SOM p. 3) 
 # ?principal confirms that "component scores are found by regression"
@@ -132,8 +132,8 @@ ggplot(data.frame(pca_A2$scores), aes(x = RC1, y = RC2, label = rownames(d1))) +
   geom_text() +
   theme_bw() +
   labs(title = "Raw character factor scores\n",
-       x = "\nRotated Component 2",
-       y = "Rotated Component 1\n")
+       x = "\nRotated Component 1",
+       y = "Rotated Component 2\n")
 
 # FROM GGW2007: "For ease of interpretation, factor scores in Figure 1 were adjusted to be anchored at 0 and 1" (SOM p. 3)
 
@@ -484,3 +484,5 @@ rs1$merge
 plot(rs1$height)
 plot(rs1)
 
+par(mfrow = c(1,1))
+plot(rs1)
