@@ -25,7 +25,7 @@ addCondition("Joy", "experiencing joy");
 // addCondition("Planning", "making plans and working toward a goal");
 // addCondition("Pleasure", "experiencing physical or emotional pleasure");
 // addCondition("Pride", "experiencing pride");
-addCondition("Rage", "experiencing violent or uncontrolled anger");
+// addCondition("Rage", "experiencing violent or uncontrolled anger");
 // addCondition("Self-Control", "exercising self-restraint over desires, emotions, or impulses");
 // addCondition("Thought", "thinking");
 
