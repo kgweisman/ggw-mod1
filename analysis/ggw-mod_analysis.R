@@ -196,7 +196,7 @@ qplot(y = pca_A4$values) +
   labs(title = "Scree test for 4-factor (maximal) PCA",
        x = "Component",
        y = "Eigenvalue") +
-  geom_line() # retain 2-3 components (left of "break")
+  geom_line() # retain 2 components (left of "break")
 
 # extract PCA loadings
 pca_A4_pc1 = pca_A4$loadings[,1]; sort(pca_A4_pc1)
@@ -232,7 +232,7 @@ ggplot(data.frame(pca_A2$loadings[1:18,]), aes(x = RC1, y = RC2, label = names(d
 # FROM GGW2007: "We used the regression approach to estimate factor scores for each character." (SOM p. 3) 
 # ?principal confirms that "component scores are found by regression"
 
-# plot characters by principle components
+# plot characters by principal components
 ggplot(data.frame(pca_A2$scores), aes(x = RC1, y = RC2, label = rownames(d1))) +
   geom_text() +
   theme_bw() +
@@ -2269,7 +2269,7 @@ mds_thought_Aordinal
 # --------------->-> plots ----------------------------------------------------
 
 # plot everything in 4x5 grid
-par(mfrow = c(4,5))
+# par(mfrow = c(4,5))
 
 # plot dimension space
 plot(mds_communication_Aordinal, 
