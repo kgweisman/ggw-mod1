@@ -60,12 +60,12 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 # --- IMPORTING DATA ----------------------------------------------------------
 
 # read in data: character means
-d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02_2015-03-16_charmeans.csv")[-1] # get rid of column of obs numbers
+d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04_2015-04-15_charmeans.csv")[-1] # get rid of column of obs numbers
 
 glimpse(d)
 
 # read in data: individual scores
-dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02_2015-03-16_data_anonymized.csv")[-1] # get rid of column of obs numbers
+dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04_2015-04-15_data_anonymized.csv")[-1] # get rid of column of obs numbers
 
 glimpse(dd)
 
