@@ -361,6 +361,10 @@ d_tidy = full_join(d.raw_01, d.raw_02) %>%
   full_join(d.raw_04) %>%
   full_join(d.raw_india_01) %>%
   mutate(subid = factor(subid),
+         country_selfrep = country,
+         country = factor(ifelse(grepl("Sindia", subid) == T,
+                                 "india",
+                                 "us")),
          condition = ifelse(condition == "Emotion Recognition",
                             "EmotionRecognition",
                             condition),
@@ -401,11 +405,11 @@ write.csv(d_tidy, "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mo
 
 d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04&india01_2015-04-17_data_anonymized.csv")[-1] # get rid of column of obs numbers
 
-# view comments
-comments = d %>%
-#   filter(country == "india") %>%
-  select(comments, condition, subid) %>%
-  distinct() %>%
-  filter(comments != "NA")
-
-View(comments)
+# # view comments
+# comments = d %>%
+# #   filter(country == "india") %>%
+#   select(comments, condition, subid) %>%
+#   distinct() %>%
+#   filter(comments != "NA")
+# 
+# View(comments)
