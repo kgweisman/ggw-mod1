@@ -33,48 +33,83 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
-    matrix(
-    data = c("subid", "condition", "age", "gender", "ethnicity", "education", 
-               "religionChild", "religionNow", "job", "d.raw_02atus", 
-               "children", "country", "englishNative", "politicalIdeology", 
-               "studyMoralPhil", "vegetarian", "beliefGod", "beliefAfterlife", 
-               "beliefTradition", "beliefRules", "beliefLeader", "comments", 
-               "trialNum", "leftCharacter", "rightCharacter", "response", "rt"),
-    nrow = 78, ncol = 0))
-
-  # subject-level data: identity
-  id$subid = paste0("S01",i)
-  id$condition = jd$answers$data$newData$condition
+    # subject-level data: identity
+    subid = paste0("S01",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+        
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # trial-level data:                    
+    trialNum = jd$answers$data$newData$trialData$trialNum,
+    leftCharacter = jd$answers$data$newData$trialData$leftCharacter,
+    rightCharacter = jd$answers$data$newData$trialData$rightCharacter,
+    response = jd$answers$data$newData$trialData$response,
+    rt = jd$answers$data$newData$trialData$rt)
   
-  # subject-level data: demographics
-  id$age = ifelse(jd$answers$data$newData$age == "", "NA", jd$answers$data$newData$age)
-  id$gender = ifelse(jd$answers$data$newData$gender == "", "NA", jd$answers$data$newData$gender)
-#   id$ethnicity = ifelse(jd$answers$data$newData$ethnicity == "", "NA", jd$answers$data$newData$ethnicity)
-  id$education = ifelse(jd$answers$data$newData$education == "", "NA", jd$answers$data$newData$education)
-#   id$religionChild = ifelse(jd$answers$data$newData$religionChild == "", "NA", jd$answers$data$newData$religionChild)
-#   id$religionNow = ifelse(jd$answers$data$newData$religionNow == "", "NA", jd$answers$data$newData$religionNow)
-  id$job = ifelse(jd$answers$data$newData$job == "", "NA", jd$answers$data$newData$job)
-#   id$maritalStatus = ifelse(jd$answers$data$newData$maritalStatus == "", "NA", jd$answers$data$newData$maritalStatus)
-  id$children = ifelse(jd$answers$data$newData$children == "", "NA", jd$answers$data$newData$children)
-  id$country = ifelse(jd$answers$data$newData$country == "", "NA", jd$answers$data$newData$country)
-#   id$englishNative = ifelse(jd$answers$data$newData$englishNative == "", "NA", jd$answers$data$newData$englishNative)
-  id$politicalIdeology = ifelse(jd$answers$data$newData$politicalIdeology == "", "NA", jd$answers$data$newData$politicalIdeology)
-#   id$studyMoralPhil = ifelse(jd$answers$data$newData$studyMoralPhil == "", "NA", jd$answers$data$newData$studyMoralPhil)
-#   id$vegetarian = ifelse(jd$answers$data$newData$vegetarian == "", "NA", jd$answers$data$newData$vegetarian)
-#   id$beliefGod = ifelse(jd$answers$data$newData$beliefGod == "", "NA", jd$answers$data$newData$beliefGod)
-  id$beliefAfterlife = ifelse(jd$answers$data$newData$beliefAfterlife == "", "NA", jd$answers$data$newData$beliefAfterlife)
-#   id$beliefTradition = ifelse(jd$answers$data$newData$beliefTradition == "", "NA", jd$answers$data$newData$beliefTradition)
-#   id$beliefRules = ifelse(jd$answers$data$newData$beliefRules == "", "NA", jd$answers$data$newData$beliefRules)
-  id$beliefLeader = ifelse(jd$answers$data$newData$beliefLeader == "", "NA", jd$answers$data$newData$beliefLeader)
-  id$comments = ifelse(jd$answers$data$newData$comments == "", "NA", jd$answers$data$newData$comments)
-  
-  # trial-level data:                    
-  id$trialNum = jd$answers$data$newData$trialData$trialNum
-  id$leftCharacter = jd$answers$data$newData$trialData$leftCharacter
-  id$rightCharacter = jd$answers$data$newData$trialData$rightCharacter
-  id$response = jd$answers$data$newData$trialData$response
-  id$rt = jd$answers$data$newData$trialData$rt
-
   # bind into same dataframe
   d.raw_01 <- bind_rows(d.raw_01, id)
 }
@@ -101,47 +136,82 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
-    matrix(
-      data = c("subid", "condition", "age", "gender", "ethnicity", "education", 
-               "religionChild", "religionNow", "job", "maritalStatus", 
-               "children", "country", "englishNative", "politicalIdeology", 
-               "studyMoralPhil", "vegetarian", "beliefGod", "beliefAfterlife", 
-               "beliefTradition", "beliefRules", "beliefLeader", "comments", 
-               "trialNum", "leftCharacter", "rightCharacter", "response", "rt"),
-      nrow = 78, ncol = 0))
-  
-  # subject-level data: identity
-  id$subid = paste0("S02",i)
-  id$condition = jd$answers$data$newData$condition
-  
-  # subject-level data: demographics
-  id$age = ifelse(jd$answers$data$newData$age == "", "NA", jd$answers$data$newData$age)
-  id$gender = ifelse(jd$answers$data$newData$gender == "", "NA", jd$answers$data$newData$gender)
-#   id$ethnicity = ifelse(jd$answers$data$newData$ethnicity == "", "NA", jd$answers$data$newData$ethnicity)
-  id$education = ifelse(jd$answers$data$newData$education == "", "NA", jd$answers$data$newData$education)
-#   id$religionChild = ifelse(jd$answers$data$newData$religionChild == "", "NA", jd$answers$data$newData$religionChild)
-  #   id$religionNow = ifelse(jd$answers$data$newData$religionNow == "", "NA", jd$answers$data$newData$religionNow)
-  id$job = ifelse(jd$answers$data$newData$job == "", "NA", jd$answers$data$newData$job)
-#   id$maritalStatus = ifelse(jd$answers$data$newData$maritalStatus == "", "NA", jd$answers$data$newData$maritalStatus)
-  id$children = ifelse(jd$answers$data$newData$children == "", "NA", jd$answers$data$newData$children)
-  id$country = ifelse(jd$answers$data$newData$country == "", "NA", jd$answers$data$newData$country)
-#   id$englishNative = ifelse(jd$answers$data$newData$englishNative == "", "NA", jd$answers$data$newData$englishNative)
-  id$politicalIdeology = ifelse(jd$answers$data$newData$politicalIdeology == "", "NA", jd$answers$data$newData$politicalIdeology)
-#   id$studyMoralPhil = ifelse(jd$answers$data$newData$studyMoralPhil == "", "NA", jd$answers$data$newData$studyMoralPhil)
-  #   id$vegetarian = ifelse(jd$answers$data$newData$vegetarian == "", "NA", jd$answers$data$newData$vegetarian)
-#   id$beliefGod = ifelse(jd$answers$data$newData$beliefGod == "", "NA", jd$answers$data$newData$beliefGod)
-  id$beliefAfterlife = ifelse(jd$answers$data$newData$beliefAfterlife == "", "NA", jd$answers$data$newData$beliefAfterlife)
-#   id$beliefTradition = ifelse(jd$answers$data$newData$beliefTradition == "", "NA", jd$answers$data$newData$beliefTradition)
-  #   id$beliefRules = ifelse(jd$answers$data$newData$beliefRules == "", "NA", jd$answers$data$newData$beliefRules)
-  id$beliefLeader = ifelse(jd$answers$data$newData$beliefLeader == "", "NA", jd$answers$data$newData$beliefLeader)
-  id$comments = ifelse(jd$answers$data$newData$comments == "", "NA", jd$answers$data$newData$comments)
-  
-  # trial-level data:                    
-  id$trialNum = jd$answers$data$newData$trialData$trialNum
-  id$leftCharacter = jd$answers$data$newData$trialData$leftCharacter
-  id$rightCharacter = jd$answers$data$newData$trialData$rightCharacter
-  id$response = jd$answers$data$newData$trialData$response
-  id$rt = jd$answers$data$newData$trialData$rt
+    # subject-level data: identity
+    subid = paste0("S02",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # trial-level data:                    
+    trialNum = jd$answers$data$newData$trialData$trialNum,
+    leftCharacter = jd$answers$data$newData$trialData$leftCharacter,
+    rightCharacter = jd$answers$data$newData$trialData$rightCharacter,
+    response = jd$answers$data$newData$trialData$response,
+    rt = jd$answers$data$newData$trialData$rt)
   
   # bind into same dataframe
   d.raw_02 <- bind_rows(d.raw_02, id)
@@ -169,47 +239,82 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
-    matrix(
-      data = c("subid", "condition", "age", "gender", "ethnicity", "education", 
-               "religionChild", "religionNow", "job", "maritalStatus", 
-               "children", "country", "englishNative", "politicalIdeology", 
-               "studyMoralPhil", "vegetarian", "beliefGod", "beliefAfterlife", 
-               "beliefTradition", "beliefRules", "beliefLeader", "comments", 
-               "trialNum", "leftCharacter", "rightCharacter", "response", "rt"),
-      nrow = 78, ncol = 0))
-  
-  # subject-level data: identity
-  id$subid = paste0("S03",i)
-  id$condition = jd$answers$data$newData$condition
-  
-  # subject-level data: demographics
-  id$age = ifelse(jd$answers$data$newData$age == "", "NA", jd$answers$data$newData$age)
-  id$gender = ifelse(jd$answers$data$newData$gender == "", "NA", jd$answers$data$newData$gender)
-  #   id$ethnicity = ifelse(jd$answers$data$newData$ethnicity == "", "NA", jd$answers$data$newData$ethnicity)
-  id$education = ifelse(jd$answers$data$newData$education == "", "NA", jd$answers$data$newData$education)
-  #   id$religionChild = ifelse(jd$answers$data$newData$religionChild == "", "NA", jd$answers$data$newData$religionChild)
-  #   id$religionNow = ifelse(jd$answers$data$newData$religionNow == "", "NA", jd$answers$data$newData$religionNow)
-  id$job = ifelse(jd$answers$data$newData$job == "", "NA", jd$answers$data$newData$job)
-  #   id$maritalStatus = ifelse(jd$answers$data$newData$maritalStatus == "", "NA", jd$answers$data$newData$maritalStatus)
-  id$children = ifelse(jd$answers$data$newData$children == "", "NA", jd$answers$data$newData$children)
-  id$country = ifelse(jd$answers$data$newData$country == "", "NA", jd$answers$data$newData$country)
-  #   id$englishNative = ifelse(jd$answers$data$newData$englishNative == "", "NA", jd$answers$data$newData$englishNative)
-  id$politicalIdeology = ifelse(jd$answers$data$newData$politicalIdeology == "", "NA", jd$answers$data$newData$politicalIdeology)
-  #   id$studyMoralPhil = ifelse(jd$answers$data$newData$studyMoralPhil == "", "NA", jd$answers$data$newData$studyMoralPhil)
-  #   id$vegetarian = ifelse(jd$answers$data$newData$vegetarian == "", "NA", jd$answers$data$newData$vegetarian)
-  #   id$beliefGod = ifelse(jd$answers$data$newData$beliefGod == "", "NA", jd$answers$data$newData$beliefGod)
-  id$beliefAfterlife = ifelse(jd$answers$data$newData$beliefAfterlife == "", "NA", jd$answers$data$newData$beliefAfterlife)
-  #   id$beliefTradition = ifelse(jd$answers$data$newData$beliefTradition == "", "NA", jd$answers$data$newData$beliefTradition)
-  #   id$beliefRules = ifelse(jd$answers$data$newData$beliefRules == "", "NA", jd$answers$data$newData$beliefRules)
-  id$beliefLeader = ifelse(jd$answers$data$newData$beliefLeader == "", "NA", jd$answers$data$newData$beliefLeader)
-  id$comments = ifelse(jd$answers$data$newData$comments == "", "NA", jd$answers$data$newData$comments)
-  
-  # trial-level data:                    
-  id$trialNum = jd$answers$data$newData$trialData$trialNum
-  id$leftCharacter = jd$answers$data$newData$trialData$leftCharacter
-  id$rightCharacter = jd$answers$data$newData$trialData$rightCharacter
-  id$response = jd$answers$data$newData$trialData$response
-  id$rt = jd$answers$data$newData$trialData$rt
+    # subject-level data: identity
+    subid = paste0("S03",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # trial-level data:                    
+    trialNum = jd$answers$data$newData$trialData$trialNum,
+    leftCharacter = jd$answers$data$newData$trialData$leftCharacter,
+    rightCharacter = jd$answers$data$newData$trialData$rightCharacter,
+    response = jd$answers$data$newData$trialData$response,
+    rt = jd$answers$data$newData$trialData$rt)
   
   # bind into same dataframe
   d.raw_03 <- bind_rows(d.raw_03, id)
@@ -237,47 +342,82 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
-    matrix(
-      data = c("subid", "condition", "age", "gender", "ethnicity", "education", 
-               "religionChild", "religionNow", "job", "maritalStatus", 
-               "children", "country", "englishNative", "politicalIdeology", 
-               "studyMoralPhil", "vegetarian", "beliefGod", "beliefAfterlife", 
-               "beliefTradition", "beliefRules", "beliefLeader", "comments", 
-               "trialNum", "leftCharacter", "rightCharacter", "response", "rt"),
-      nrow = 78, ncol = 0))
-  
-  # subject-level data: identity
-  id$subid = paste0("S04",i)
-  id$condition = jd$answers$data$newData$condition
-  
-  # subject-level data: demographics
-  id$age = ifelse(jd$answers$data$newData$age == "", "NA", jd$answers$data$newData$age)
-  id$gender = ifelse(jd$answers$data$newData$gender == "", "NA", jd$answers$data$newData$gender)
-  #   id$ethnicity = ifelse(jd$answers$data$newData$ethnicity == "", "NA", jd$answers$data$newData$ethnicity)
-  id$education = ifelse(jd$answers$data$newData$education == "", "NA", jd$answers$data$newData$education)
-  #   id$religionChild = ifelse(jd$answers$data$newData$religionChild == "", "NA", jd$answers$data$newData$religionChild)
-  #   id$religionNow = ifelse(jd$answers$data$newData$religionNow == "", "NA", jd$answers$data$newData$religionNow)
-  id$job = ifelse(jd$answers$data$newData$job == "", "NA", jd$answers$data$newData$job)
-  #   id$maritalStatus = ifelse(jd$answers$data$newData$maritalStatus == "", "NA", jd$answers$data$newData$maritalStatus)
-  id$children = ifelse(jd$answers$data$newData$children == "", "NA", jd$answers$data$newData$children)
-  id$country = ifelse(jd$answers$data$newData$country == "", "NA", jd$answers$data$newData$country)
-  #   id$englishNative = ifelse(jd$answers$data$newData$englishNative == "", "NA", jd$answers$data$newData$englishNative)
-  id$politicalIdeology = ifelse(jd$answers$data$newData$politicalIdeology == "", "NA", jd$answers$data$newData$politicalIdeology)
-  #   id$studyMoralPhil = ifelse(jd$answers$data$newData$studyMoralPhil == "", "NA", jd$answers$data$newData$studyMoralPhil)
-  #   id$vegetarian = ifelse(jd$answers$data$newData$vegetarian == "", "NA", jd$answers$data$newData$vegetarian)
-  #   id$beliefGod = ifelse(jd$answers$data$newData$beliefGod == "", "NA", jd$answers$data$newData$beliefGod)
-  id$beliefAfterlife = ifelse(jd$answers$data$newData$beliefAfterlife == "", "NA", jd$answers$data$newData$beliefAfterlife)
-  #   id$beliefTradition = ifelse(jd$answers$data$newData$beliefTradition == "", "NA", jd$answers$data$newData$beliefTradition)
-  #   id$beliefRules = ifelse(jd$answers$data$newData$beliefRules == "", "NA", jd$answers$data$newData$beliefRules)
-  id$beliefLeader = ifelse(jd$answers$data$newData$beliefLeader == "", "NA", jd$answers$data$newData$beliefLeader)
-  id$comments = ifelse(jd$answers$data$newData$comments == "", "NA", jd$answers$data$newData$comments)
-  
-  # trial-level data:                    
-  id$trialNum = jd$answers$data$newData$trialData$trialNum
-  id$leftCharacter = jd$answers$data$newData$trialData$leftCharacter
-  id$rightCharacter = jd$answers$data$newData$trialData$rightCharacter
-  id$response = jd$answers$data$newData$trialData$response
-  id$rt = jd$answers$data$newData$trialData$rt
+    # subject-level data: identity
+    subid = paste0("S04",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # trial-level data:                    
+    trialNum = jd$answers$data$newData$trialData$trialNum,
+    leftCharacter = jd$answers$data$newData$trialData$leftCharacter,
+    rightCharacter = jd$answers$data$newData$trialData$rightCharacter,
+    response = jd$answers$data$newData$trialData$response,
+    rt = jd$answers$data$newData$trialData$rt)
   
   # bind into same dataframe
   d.raw_04 <- bind_rows(d.raw_04, id)
@@ -305,47 +445,82 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
-    matrix(
-      data = c("subid", "condition", "age", "gender", "ethnicity", "education", 
-               "religionChild", "religionNow", "job", "d.raw_02atus", 
-               "children", "country", "englishNative", "politicalIdeology", 
-               "studyMoralPhil", "vegetarian", "beliefGod", "beliefAfterlife", 
-               "beliefTradition", "beliefRules", "beliefLeader", "comments", 
-               "trialNum", "leftCharacter", "rightCharacter", "response", "rt"),
-      nrow = 78, ncol = 0))
-  
-  # subject-level data: identity
-  id$subid = paste0("Sindia_01",i)
-  id$condition = jd$answers$data$newData$condition
-  
-  # subject-level data: demographics
-  id$age = ifelse(jd$answers$data$newData$age == "", "NA", jd$answers$data$newData$age)
-  id$gender = ifelse(jd$answers$data$newData$gender == "", "NA", jd$answers$data$newData$gender)
-  #   id$ethnicity = ifelse(jd$answers$data$newData$ethnicity == "", "NA", jd$answers$data$newData$ethnicity)
-  id$education = ifelse(jd$answers$data$newData$education == "", "NA", jd$answers$data$newData$education)
-  #   id$religionChild = ifelse(jd$answers$data$newData$religionChild == "", "NA", jd$answers$data$newData$religionChild)
-  #   id$religionNow = ifelse(jd$answers$data$newData$religionNow == "", "NA", jd$answers$data$newData$religionNow)
-  id$job = ifelse(jd$answers$data$newData$job == "", "NA", jd$answers$data$newData$job)
-  #   id$maritalStatus = ifelse(jd$answers$data$newData$maritalStatus == "", "NA", jd$answers$data$newData$maritalStatus)
-  id$children = ifelse(jd$answers$data$newData$children == "", "NA", jd$answers$data$newData$children)
-  id$country = ifelse(jd$answers$data$newData$country == "", "NA", jd$answers$data$newData$country)
-  #   id$englishNative = ifelse(jd$answers$data$newData$englishNative == "", "NA", jd$answers$data$newData$englishNative)
-  id$politicalIdeology = ifelse(jd$answers$data$newData$politicalIdeology == "", "NA", jd$answers$data$newData$politicalIdeology)
-  #   id$studyMoralPhil = ifelse(jd$answers$data$newData$studyMoralPhil == "", "NA", jd$answers$data$newData$studyMoralPhil)
-  #   id$vegetarian = ifelse(jd$answers$data$newData$vegetarian == "", "NA", jd$answers$data$newData$vegetarian)
-  #   id$beliefGod = ifelse(jd$answers$data$newData$beliefGod == "", "NA", jd$answers$data$newData$beliefGod)
-  id$beliefAfterlife = ifelse(jd$answers$data$newData$beliefAfterlife == "", "NA", jd$answers$data$newData$beliefAfterlife)
-  #   id$beliefTradition = ifelse(jd$answers$data$newData$beliefTradition == "", "NA", jd$answers$data$newData$beliefTradition)
-  #   id$beliefRules = ifelse(jd$answers$data$newData$beliefRules == "", "NA", jd$answers$data$newData$beliefRules)
-  id$beliefLeader = ifelse(jd$answers$data$newData$beliefLeader == "", "NA", jd$answers$data$newData$beliefLeader)
-  id$comments = ifelse(jd$answers$data$newData$comments == "", "NA", jd$answers$data$newData$comments)
-  
-  # trial-level data:                    
-  id$trialNum = jd$answers$data$newData$trialData$trialNum
-  id$leftCharacter = jd$answers$data$newData$trialData$leftCharacter
-  id$rightCharacter = jd$answers$data$newData$trialData$rightCharacter
-  id$response = jd$answers$data$newData$trialData$response
-  id$rt = jd$answers$data$newData$trialData$rt
+    # subject-level data: identity
+    subid = paste0("Sindia_01",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # trial-level data:                    
+    trialNum = jd$answers$data$newData$trialData$trialNum,
+    leftCharacter = jd$answers$data$newData$trialData$leftCharacter,
+    rightCharacter = jd$answers$data$newData$trialData$rightCharacter,
+    response = jd$answers$data$newData$trialData$response,
+    rt = jd$answers$data$newData$trialData$rt)
   
   # bind into same dataframe
   d.raw_india_01 <- bind_rows(d.raw_india_01, id)
@@ -361,7 +536,7 @@ d_tidy = full_join(d.raw_01, d.raw_02) %>%
   full_join(d.raw_04) %>%
   full_join(d.raw_india_01) %>%
   mutate(subid = factor(subid),
-         country_selfrep = country,
+         country_selfrep = factor(country),
          country = factor(ifelse(grepl("Sindia", subid) == T,
                                  "india",
                                  "us")),
@@ -371,20 +546,24 @@ d_tidy = full_join(d.raw_01, d.raw_02) %>%
          condition = factor(condition),
          age = as.numeric(age),
          gender = factor(gender),
-#          ethnicity = factor(ethnicity), # redo for multiple selected
+         ethnicity = factor(ethnicity), # redo for multiple selected
          education = factor(education),
-#          religionChild = factor(religionChild), # redo for multiple selected
-#          religionNow = factor(religionNow), # redo for multiple selected
+         religionChild = factor(religionChild), # redo for multiple selected
+         religionNow = factor(religionNow), # redo for multiple selected
          children = factor(children),
-#          englishNative = factor(englishNative),
+         englishNative = factor(englishNative),
          politicalIdeology = factor(politicalIdeology),         
-#          studyMoralPhil = factor(studyMoralPhil),         
-#          vegetarian = factor(vegetarian),         
-#          beliefGod = factor(beliefGod),         
+         maritalStatus = factor(maritalStatus),         
+         children = as.numeric(children),
+         job = factor(job),
+         dog = factor(dog),                  
+         vegetarian = factor(vegetarian),         
+         studyMoralPhil = factor(studyMoralPhil),         
+         beliefGod = factor(beliefGod),         
          beliefAfterlife = factor(beliefAfterlife),         
-#          beliefTradition = factor(beliefTradition),         
-#          beliefRules = factor(beliefRules),         
-         beliefLeader = factor(beliefLeader),         
+         beliefTradition = factor(beliefTradition),         
+         beliefRules = factor(beliefRules),         
+#          beliefLeader = factor(beliefLeader), # lost this somewhere?         
          leftCharacter = factor(leftCharacter),         
          rightCharacter = factor(rightCharacter),         
          response = factor(response),
