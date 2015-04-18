@@ -91,24 +91,51 @@ dd_us = dd %>% filter(country == "us")
 d_india = d %>% filter(country == "india")
 dd_india = dd %>% filter(country == "india")
 
-# # set group of interest
-# # ... to US:
-# d = d_us
-# dd = dd_us
-# 
+# set group of interest
+# ... to US:
+d = d_us
+dd = dd_us
+
 # # ... to India:
 # d = d_india
 # dd = dd_india
+
+# --- FILTERING BY ETHNICITY --------------------------------------------------
+
+d_white = d %>%
+  filter(ethnicity == "white")
+dd_white = dd %>%
+  filter(ethnicity == "white")
+
+d_nonwhite = d %>%
+  filter(ethnicity != "white" & 
+           ethnicity != "NA" & 
+           ethnicity != "other_prefNo")
+
+dd_nonwhite = dd %>%
+  filter(ethnicity != "white" & 
+           ethnicity != "NA" & 
+           ethnicity != "other_prefNo")
+
+# set group of interest
+# ... to white:
+d = d_white
+dd = dd_white
+
+# # ... to nonwhite:
+# d = d_nonwhite
+# dd = dd_nonwhite
 
 # --- FORMATTING DATA ---------------------------------------------------------
 
 # make table of character means by mental capacity
 charmeans = d %>%
-  gather(character, response, 
-         -subid, -condition, -gender, -age, 
-         -beliefGod, -education, -politicalIdeology, 
-         -maritalStatus, -children, -beliefAfterlife,
-         -country) %>%
+  select(condition, subid, gerald_schiff_pvs, toby_chimp, fetus, god,
+         delores_gleitman_deceased, sharon_harvey_woman, green_frog,
+         todd_billingsley_man, charlie_dog, nicholas_gannon_baby,
+         samantha_hill_girl, kismet_robot, you) %>%  
+  gather(character, response,
+         -condition, -subid) %>%
   group_by(condition, character) %>%
   summarise(mean = mean(response, na.rm = T))
 
@@ -138,15 +165,14 @@ print(d1)
 # make table of mental capacity means by character
 # formatted in wideform with characters as rows
 condmeans = d %>%
-  gather(character, response, 
-         -subid, -condition, -gender, -age, 
-         -beliefGod, -education, -politicalIdeology, 
-         -maritalStatus, -children, -beliefAfterlife,
-         -country) %>%
-  group_by(condition, subid, character) %>%
+  select(condition, subid, gerald_schiff_pvs, toby_chimp, fetus, god,
+         delores_gleitman_deceased, sharon_harvey_woman, green_frog,
+         todd_billingsley_man, charlie_dog, nicholas_gannon_baby,
+         samantha_hill_girl, kismet_robot, you) %>%  
+  gather(character, response,
+         -condition, -subid) %>%
+  group_by(condition, character) %>%
   summarise(mean = mean(response, na.rm = T))
-
-glimpse(condmeans)
 
 # format into wideform with characters as rows
 condmeans_table = condmeans %>%
@@ -174,22 +200,59 @@ dd %>% group_by(condition) %>% distinct(subid) %>% summarise(n = length(subid))
 dd %>% distinct(subid) %>% count(gender)
 
 # ethnicity
-# dd %>% distinct(subid) %>% count(ethnicity)
+dd %>% distinct(subid) %>% count(ethnicity)
+
+# age
+dd %>% distinct(subid) %>% summarise(mean_age = mean(age, na.rm = T),
+                                     sd_age = sd(age, na.rm = T))
 
 # education
 dd %>% distinct(subid) %>% count(education)
 
 # englishNative
-# dd %>% distinct(subid) %>% count(englishNative)
+dd %>% distinct(subid) %>% count(englishNative)
 
 # politicalIdeology
 dd %>% distinct(subid) %>% count(politicalIdeology)
 
 # religionChild
-# dd %>% distinct(subid) %>% count(religionChild)
+dd %>% distinct(subid) %>% count(religionChild)
+
+# religionNow
+dd %>% distinct(subid) %>% count(religionNow)
 
 # maritalStatus
-# dd %>% distinct(subid) %>% count(maritalStatus)
+dd %>% distinct(subid) %>% count(maritalStatus)
+
+# children
+dd %>% distinct(subid) %>% summarise(mean_children = mean(children, na.rm = T),
+                                     sd_children = sd(children, na.rm = T))
+
+# job
+View(dd %>% distinct(subid) %>% 
+  mutate(job = factor(tolower(as.character(job)))) %>%
+  count(job))
+
+# studyMoralPhil
+dd %>% distinct(subid) %>% count(studyMoralPhil)
+
+# dog
+dd %>% distinct(subid) %>% count(dog)
+
+# vegetarian
+dd %>% distinct(subid) %>% count(vegetarian)
+
+# beliefRules
+dd %>% distinct(subid) %>% count(beliefRules)
+
+# beliefGod
+dd %>% distinct(subid) %>% count(beliefGod)
+
+# beliefAfterlife
+dd %>% distinct(subid) %>% count(beliefAfterlife)
+
+# beliefTradition
+dd %>% distinct(subid) %>% count(beliefTradition)
 
 ################################################### analysis & plots pt 1 #####
 
@@ -203,11 +266,12 @@ dd %>% distinct(subid) %>% count(politicalIdeology)
 
 # extract factors
 pca_A4 = principal(d1, nfactors = 4, rotate = "none"); pca_A4
-# retain 2 components (prop var > 5-10%)
-# retain 1-2 components? (cumulative prop var > 70%... but < 100%?)
+# retain components with prop var > 5-10%
+# retain components with cumulative prop var > 70% (... but < 100%?)
 
 # extract eigenvalues
-pca_A4$values # retain 2 components (eigenvalue > 1)
+pca_A4$values 
+# retain components with eigenvalues > 1
 
 # scree test
 qplot(y = pca_A4$values) +
@@ -215,7 +279,8 @@ qplot(y = pca_A4$values) +
   labs(title = "Scree test for 4-factor (maximal) PCA",
        x = "Component",
        y = "Eigenvalue") +
-  geom_line() # retain 2 components (left of "break")
+  geom_line() 
+# retain components left of "break"
 
 # extract PCA loadings
 pca_A4_pc1 = pca_A4$loadings[,1]; sort(pca_A4_pc1)
@@ -241,7 +306,7 @@ pca_A2_pc2 = pca_A2$loadings[,2]; sort(pca_A2_pc2)
 
 # plot PCs against each other
 # NOTE: need to adjust "1:18" depending on how many conditions are run
-ggplot(data.frame(pca_A2$loadings[1:8,]), aes(x = RC1, y = RC2, label = names(d1))) +
+ggplot(data.frame(pca_A2$loadings[1:18,]), aes(x = RC1, y = RC2, label = names(d1))) +
   geom_text() +
   theme_bw() +
   labs(title = "Factor loadings\n",
@@ -275,8 +340,8 @@ ggplot(data.frame(pca_A2$scores),
   theme_bw() +
   theme(text = element_text(size = 20)) +
   labs(title = "Adjusted character factor scores\n",
-       x = "\nRotated Component 1, rescaled: 'Agency'",
-       y = "Rotated Component 2, rescaled: 'Experience'\n")
+       x = "\nRotated Component 1, rescaled",
+       y = "Rotated Component 2, rescaled\n")
 
 # --------> 1-factor PCA (varimax rotation, using principal) ----------
 # extract factors
