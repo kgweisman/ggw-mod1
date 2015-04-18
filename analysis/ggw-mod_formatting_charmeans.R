@@ -29,58 +29,95 @@ for(i in 1:length(files)) {
   # parse JSON object
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   
-  kd <- data.frame(matrix(
-    data = c(
-      # session info
-      "subid", "condition", 
-             
-      # individual diffs items for z-score analysis
-      "gender", "age", "beliefGod", "education", "politicalIdeology",
-      "maritalStatus", "children", 
-#       "dog", # add back in for real study
-      "beliefAfterlife",
-      
-      # character means
-      "gerald_schiff_pvs", "toby_chimp", "fetus",
-      "god", "delores_gleitman_deceased", "sharon_harvey_woman",
-      "green_frog", "todd_billingsley_man", "charlie_dog", 
-      "nicholas_gannon_baby", "samantha_hill_girl", "kismet_robot", 
-      "you"),
-    nrow = 12, 
-    ncol = 0))
+  # store relevant variables in dataframe 
+  id <- data.frame(
+    # subject-level data: identity
+    subid = paste0("S01",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # character means data:
+    gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs,
+    toby_chimp = jd$answers$data$newData$charScores$toby_chimp,
+    fetus = jd$answers$data$newData$charScores$fetus,
+    god = jd$answers$data$newData$charScores$god,
+    delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased,
+    sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman,
+    green_frog = jd$answers$data$newData$charScores$green_frog,
+    todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man,
+    charlie_dog = jd$answers$data$newData$charScores$charlie_dog,
+    nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby,
+    samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl,
+    kismet_robot = jd$answers$data$newData$charScores$kismet_robot,
+    you = jd$answers$data$newData$charScores$you)
 
-  # session info
-  kd$subid = paste0("S01",i)
-  kd$condition = jd$answers$data$newData$condition
-
-  # individual diffs items for z-score analysis
-  kd$gender = jd$answers$data$newData$gender
-  kd$age = jd$answers$data$newData$age
-  kd$beliefGod = jd$answers$data$newData$beliefGod
-  kd$education = jd$answers$data$newData$education
-  kd$politicalIdeology = jd$answers$data$newData$politicalIdeology
-  kd$maritalStatus = jd$answers$data$newData$maritalStatus
-  kd$children = jd$answers$data$newData$children
-#   kd$dog = jd$answers$data$newData$dog # add back in for real study
-  kd$beliefAfterlife = jd$answers$data$newData$beliefAfterlife
-
-  # character means
-  kd$gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs
-  kd$toby_chimp = jd$answers$data$newData$charScores$toby_chimp
-  kd$fetus = jd$answers$data$newData$charScores$fetus
-  kd$god = jd$answers$data$newData$charScores$god
-  kd$delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased
-  kd$sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman
-  kd$green_frog = jd$answers$data$newData$charScores$green_frog
-  kd$todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man
-  kd$charlie_dog = jd$answers$data$newData$charScores$charlie_dog
-  kd$nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby
-  kd$samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl
-  kd$kismet_robot = jd$answers$data$newData$charScores$kismet_robot
-  kd$you = jd$answers$data$newData$charScores$you
-  
   # bind into same dataframe
-  d.raw_01 <- bind_rows(d.raw_01, kd)
+  d.raw_01 <- bind_rows(d.raw_01, id)
 }
 
 glimpse(d.raw_01)
@@ -103,58 +140,95 @@ for(i in 1:length(files)) {
   # parse JSON object
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   
-  kd <- data.frame(matrix(
-    data = c(
-      # session info
-      "subid", "condition", 
-      
-      # individual diffs items for z-score analysis
-      "gender", "age", "beliefGod", "education", "politicalIdeology",
-      "maritalStatus", "children", 
-      #       "dog", # add back in for real study
-      "beliefAfterlife",
-      
-      # character means
-      "gerald_schiff_pvs", "toby_chimp", "fetus",
-      "god", "delores_gleitman_deceased", "sharon_harvey_woman",
-      "green_frog", "todd_billingsley_man", "charlie_dog", 
-      "nicholas_gannon_baby", "samantha_hill_girl", "kismet_robot", 
-      "you"),
-    nrow = 12, 
-    ncol = 0))
-  
-  # session info
-  kd$subid = paste0("S02",i)
-  kd$condition = jd$answers$data$newData$condition
-  
-  # individual diffs items for z-score analysis
-  kd$gender = jd$answers$data$newData$gender
-  kd$age = jd$answers$data$newData$age
-  kd$beliefGod = jd$answers$data$newData$beliefGod
-  kd$education = jd$answers$data$newData$education
-  kd$politicalIdeology = jd$answers$data$newData$politicalIdeology
-  kd$maritalStatus = jd$answers$data$newData$maritalStatus
-  kd$children = jd$answers$data$newData$children
-  #   kd$dog = jd$answers$data$newData$dog # add back in for real study
-  kd$beliefAfterlife = jd$answers$data$newData$beliefAfterlife
-  
-  # character means
-  kd$gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs
-  kd$toby_chimp = jd$answers$data$newData$charScores$toby_chimp
-  kd$fetus = jd$answers$data$newData$charScores$fetus
-  kd$god = jd$answers$data$newData$charScores$god
-  kd$delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased
-  kd$sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman
-  kd$green_frog = jd$answers$data$newData$charScores$green_frog
-  kd$todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man
-  kd$charlie_dog = jd$answers$data$newData$charScores$charlie_dog
-  kd$nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby
-  kd$samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl
-  kd$kismet_robot = jd$answers$data$newData$charScores$kismet_robot
-  kd$you = jd$answers$data$newData$charScores$you
+  # store relevant variables in dataframe 
+  id <- data.frame(
+    # subject-level data: identity
+    subid = paste0("S02",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # character means data:
+    gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs,
+    toby_chimp = jd$answers$data$newData$charScores$toby_chimp,
+    fetus = jd$answers$data$newData$charScores$fetus,
+    god = jd$answers$data$newData$charScores$god,
+    delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased,
+    sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman,
+    green_frog = jd$answers$data$newData$charScores$green_frog,
+    todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man,
+    charlie_dog = jd$answers$data$newData$charScores$charlie_dog,
+    nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby,
+    samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl,
+    kismet_robot = jd$answers$data$newData$charScores$kismet_robot,
+    you = jd$answers$data$newData$charScores$you)
   
   # bind into same dataframe
-  d.raw_02 <- bind_rows(d.raw_02, kd)
+  d.raw_02 <- bind_rows(d.raw_02, id)
 }
 
 glimpse(d.raw_02)
@@ -177,58 +251,95 @@ for(i in 1:length(files)) {
   # parse JSON object
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   
-  kd <- data.frame(matrix(
-    data = c(
-      # session info
-      "subid", "condition", 
-      
-      # individual diffs items for z-score analysis
-      "gender", "age", "beliefGod", "education", "politicalIdeology",
-      "maritalStatus", "children", 
-      #       "dog", # add back in for real study
-      "beliefAfterlife",
-      
-      # character means
-      "gerald_schiff_pvs", "toby_chimp", "fetus",
-      "god", "delores_gleitman_deceased", "sharon_harvey_woman",
-      "green_frog", "todd_billingsley_man", "charlie_dog", 
-      "nicholas_gannon_baby", "samantha_hill_girl", "kismet_robot", 
-      "you"),
-    nrow = 12, 
-    ncol = 0))
-  
-  # session info
-  kd$subid = paste0("S03",i)
-  kd$condition = jd$answers$data$newData$condition
-  
-  # individual diffs items for z-score analysis
-  kd$gender = jd$answers$data$newData$gender
-  kd$age = jd$answers$data$newData$age
-  kd$beliefGod = jd$answers$data$newData$beliefGod
-  kd$education = jd$answers$data$newData$education
-  kd$politicalIdeology = jd$answers$data$newData$politicalIdeology
-  kd$maritalStatus = jd$answers$data$newData$maritalStatus
-  kd$children = jd$answers$data$newData$children
-  #   kd$dog = jd$answers$data$newData$dog # add back in for real study
-  kd$beliefAfterlife = jd$answers$data$newData$beliefAfterlife
-  
-  # character means
-  kd$gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs
-  kd$toby_chimp = jd$answers$data$newData$charScores$toby_chimp
-  kd$fetus = jd$answers$data$newData$charScores$fetus
-  kd$god = jd$answers$data$newData$charScores$god
-  kd$delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased
-  kd$sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman
-  kd$green_frog = jd$answers$data$newData$charScores$green_frog
-  kd$todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man
-  kd$charlie_dog = jd$answers$data$newData$charScores$charlie_dog
-  kd$nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby
-  kd$samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl
-  kd$kismet_robot = jd$answers$data$newData$charScores$kismet_robot
-  kd$you = jd$answers$data$newData$charScores$you
+  # store relevant variables in dataframe 
+  id <- data.frame(
+    # subject-level data: identity
+    subid = paste0("S03",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # character means data:
+    gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs,
+    toby_chimp = jd$answers$data$newData$charScores$toby_chimp,
+    fetus = jd$answers$data$newData$charScores$fetus,
+    god = jd$answers$data$newData$charScores$god,
+    delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased,
+    sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman,
+    green_frog = jd$answers$data$newData$charScores$green_frog,
+    todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man,
+    charlie_dog = jd$answers$data$newData$charScores$charlie_dog,
+    nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby,
+    samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl,
+    kismet_robot = jd$answers$data$newData$charScores$kismet_robot,
+    you = jd$answers$data$newData$charScores$you)
   
   # bind into same dataframe
-  d.raw_03 <- bind_rows(d.raw_03, kd)
+  d.raw_03 <- bind_rows(d.raw_03, id)
 }
 
 glimpse(d.raw_03)
@@ -251,58 +362,95 @@ for(i in 1:length(files)) {
   # parse JSON object
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   
-  kd <- data.frame(matrix(
-    data = c(
-      # session info
-      "subid", "condition", 
-      
-      # individual diffs items for z-score analysis
-      "gender", "age", "beliefGod", "education", "politicalIdeology",
-      "maritalStatus", "children", 
-      #       "dog", # add back in for real study
-      "beliefAfterlife",
-      
-      # character means
-      "gerald_schiff_pvs", "toby_chimp", "fetus",
-      "god", "delores_gleitman_deceased", "sharon_harvey_woman",
-      "green_frog", "todd_billingsley_man", "charlie_dog", 
-      "nicholas_gannon_baby", "samantha_hill_girl", "kismet_robot", 
-      "you"),
-    nrow = 12, 
-    ncol = 0))
-  
-  # session info
-  kd$subid = paste0("S04",i)
-  kd$condition = jd$answers$data$newData$condition
-  
-  # individual diffs items for z-score analysis
-  kd$gender = jd$answers$data$newData$gender
-  kd$age = jd$answers$data$newData$age
-  kd$beliefGod = jd$answers$data$newData$beliefGod
-  kd$education = jd$answers$data$newData$education
-  kd$politicalIdeology = jd$answers$data$newData$politicalIdeology
-  kd$maritalStatus = jd$answers$data$newData$maritalStatus
-  kd$children = jd$answers$data$newData$children
-  #   kd$dog = jd$answers$data$newData$dog # add back in for real study
-  kd$beliefAfterlife = jd$answers$data$newData$beliefAfterlife
-  
-  # character means
-  kd$gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs
-  kd$toby_chimp = jd$answers$data$newData$charScores$toby_chimp
-  kd$fetus = jd$answers$data$newData$charScores$fetus
-  kd$god = jd$answers$data$newData$charScores$god
-  kd$delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased
-  kd$sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman
-  kd$green_frog = jd$answers$data$newData$charScores$green_frog
-  kd$todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man
-  kd$charlie_dog = jd$answers$data$newData$charScores$charlie_dog
-  kd$nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby
-  kd$samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl
-  kd$kismet_robot = jd$answers$data$newData$charScores$kismet_robot
-  kd$you = jd$answers$data$newData$charScores$you
+  # store relevant variables in dataframe 
+  id <- data.frame(
+    # subject-level data: identity
+    subid = paste0("S04",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # character means data:
+    gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs,
+    toby_chimp = jd$answers$data$newData$charScores$toby_chimp,
+    fetus = jd$answers$data$newData$charScores$fetus,
+    god = jd$answers$data$newData$charScores$god,
+    delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased,
+    sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman,
+    green_frog = jd$answers$data$newData$charScores$green_frog,
+    todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man,
+    charlie_dog = jd$answers$data$newData$charScores$charlie_dog,
+    nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby,
+    samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl,
+    kismet_robot = jd$answers$data$newData$charScores$kismet_robot,
+    you = jd$answers$data$newData$charScores$you)
   
   # bind into same dataframe
-  d.raw_04 <- bind_rows(d.raw_04, kd)
+  d.raw_04 <- bind_rows(d.raw_04, id)
 }
 
 glimpse(d.raw_04)
@@ -325,58 +473,95 @@ for(i in 1:length(files)) {
   # parse JSON object
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   
-  kd <- data.frame(matrix(
-    data = c(
-      # session info
-      "subid", "condition", 
-      
-      # individual diffs items for z-score analysis
-      "gender", "age", "beliefGod", "education", "politicalIdeology",
-      "maritalStatus", "children", 
-      #       "dog", # add back in for real study
-      "beliefAfterlife",
-      
-      # character means
-      "gerald_schiff_pvs", "toby_chimp", "fetus",
-      "god", "delores_gleitman_deceased", "sharon_harvey_woman",
-      "green_frog", "todd_billingsley_man", "charlie_dog", 
-      "nicholas_gannon_baby", "samantha_hill_girl", "kismet_robot", 
-      "you"),
-    nrow = 12, 
-    ncol = 0))
-  
-  # session info
-  kd$subid = paste0("Sindia_01",i)
-  kd$condition = jd$answers$data$newData$condition
-  
-  # individual diffs items for z-score analysis
-  kd$gender = jd$answers$data$newData$gender
-  kd$age = jd$answers$data$newData$age
-  kd$beliefGod = jd$answers$data$newData$beliefGod
-  kd$education = jd$answers$data$newData$education
-  kd$politicalIdeology = jd$answers$data$newData$politicalIdeology
-  kd$maritalStatus = jd$answers$data$newData$maritalStatus
-  kd$children = jd$answers$data$newData$children
-  #   kd$dog = jd$answers$data$newData$dog # add back in for real study
-  kd$beliefAfterlife = jd$answers$data$newData$beliefAfterlife
-  
-  # character means
-  kd$gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs
-  kd$toby_chimp = jd$answers$data$newData$charScores$toby_chimp
-  kd$fetus = jd$answers$data$newData$charScores$fetus
-  kd$god = jd$answers$data$newData$charScores$god
-  kd$delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased
-  kd$sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman
-  kd$green_frog = jd$answers$data$newData$charScores$green_frog
-  kd$todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man
-  kd$charlie_dog = jd$answers$data$newData$charScores$charlie_dog
-  kd$nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby
-  kd$samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl
-  kd$kismet_robot = jd$answers$data$newData$charScores$kismet_robot
-  kd$you = jd$answers$data$newData$charScores$you
+  # store relevant variables in dataframe 
+  id <- data.frame(
+    # subject-level data: identity
+    subid = paste0("S01",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # character means data:
+    gerald_schiff_pvs = jd$answers$data$newData$charScores$gerald_schiff_pvs,
+    toby_chimp = jd$answers$data$newData$charScores$toby_chimp,
+    fetus = jd$answers$data$newData$charScores$fetus,
+    god = jd$answers$data$newData$charScores$god,
+    delores_gleitman_deceased = jd$answers$data$newData$charScores$delores_gleitman_deceased,
+    sharon_harvey_woman = jd$answers$data$newData$charScores$sharon_harvey_woman,
+    green_frog = jd$answers$data$newData$charScores$green_frog,
+    todd_billingsley_man = jd$answers$data$newData$charScores$todd_billingsley_man,
+    charlie_dog = jd$answers$data$newData$charScores$charlie_dog,
+    nicholas_gannon_baby = jd$answers$data$newData$charScores$nicholas_gannon_baby,
+    samantha_hill_girl = jd$answers$data$newData$charScores$samantha_hill_girl,
+    kismet_robot = jd$answers$data$newData$charScores$kismet_robot,
+    you = jd$answers$data$newData$charScores$you)
   
   # bind into same dataframe
-  d.raw_india_01 <- bind_rows(d.raw_india_01, kd)
+  d.raw_india_01 <- bind_rows(d.raw_india_01, id)
 }
 
 glimpse(d.raw_india_01)
@@ -389,19 +574,35 @@ d_tidy = full_join(d.raw_01, d.raw_02) %>%
   full_join(d.raw_04) %>%
   full_join(d.raw_india_01) %>%
   mutate(subid = factor(subid),
-         condition = ifelse(condition == "Emotion Recognition", 
+         country_selfrep = factor(country),
+         country = factor(ifelse(grepl("Sindia", subid) == T,
+                                 "india",
+                                 "us")),
+         condition = ifelse(condition == "Emotion Recognition",
                             "EmotionRecognition",
                             condition),
          condition = factor(condition),
-         gender = factor(gender),
          age = as.numeric(age),
+         gender = factor(gender),
+         ethnicity = factor(ethnicity), # redo for multiple selected
          education = factor(education),
-         politicalIdeology = factor(politicalIdeology),
-         maritalStatus = factor(maritalStatus),
+         religionChild = factor(religionChild), # redo for multiple selected
+         religionNow = factor(religionNow), # redo for multiple selected
+         children = factor(children),
+         englishNative = factor(englishNative),
+         politicalIdeology = factor(politicalIdeology),         
+         maritalStatus = factor(maritalStatus),         
          children = as.numeric(children),
-         beliefAfterlife = factor(beliefAfterlife),
-         country = factor(ifelse(grepl("Sindia", subid) == T,
-                          "india", "us")))
+         job = factor(job),
+         dog = factor(dog),                  
+         vegetarian = factor(vegetarian),         
+         studyMoralPhil = factor(studyMoralPhil),         
+         beliefGod = factor(beliefGod),         
+         beliefAfterlife = factor(beliefAfterlife),         
+         beliefTradition = factor(beliefTradition),         
+         beliefRules = factor(beliefRules)    
+         #          beliefLeader = factor(beliefLeader), # lost this somewhere?
+         )
 
 glimpse(d_tidy)
 
