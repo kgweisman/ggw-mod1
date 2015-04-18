@@ -60,16 +60,16 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 # --- IMPORTING DATA ----------------------------------------------------------
 
 # read in data: character means
-d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04_2015-04-15_charmeans.csv")[-1] # get rid of column of obs numbers
+d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04&india01_2015-04-17_charmeans.csv")[-1] # get rid of column of obs numbers
 
 glimpse(d)
 
 # read in data: individual scores
-dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04_2015-04-15_data_anonymized.csv")[-1] # get rid of column of obs numbers
+dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04&india01_2015-04-17_data_anonymized.csv")[-1] # get rid of column of obs numbers
 
 glimpse(dd)
 
-# --- FILTERING DATA ----------------------------------------------------------
+# --- FILTERING RTS -----------------------------------------------------------
 
 # # filter out trials where log_rt < 2SDs below mean
 # dd = dd %>%
@@ -83,6 +83,23 @@ glimpse(dd)
 # 
 # View(dd %>% group_by(subid) %>% summarise(trials_completed = length(log_rt)))
 
+# --- FILTERING BY COUNTRY ----------------------------------------------------
+
+d_us = d %>% filter(country == "us")
+dd_us = dd %>% filter(country == "us")
+
+d_india = d %>% filter(country == "india")
+dd_india = dd %>% filter(country == "india")
+
+# # set group of interest
+# # ... to US:
+# d = d_us
+# dd = dd_us
+# 
+# # ... to India:
+# d = d_india
+# dd = dd_india
+
 # --- FORMATTING DATA ---------------------------------------------------------
 
 # make table of character means by mental capacity
@@ -90,7 +107,8 @@ charmeans = d %>%
   gather(character, response, 
          -subid, -condition, -gender, -age, 
          -beliefGod, -education, -politicalIdeology, 
-         -maritalStatus, -children, -beliefAfterlife) %>%
+         -maritalStatus, -children, -beliefAfterlife,
+         -country) %>%
   group_by(condition, character) %>%
   summarise(mean = mean(response, na.rm = T))
 
@@ -123,7 +141,8 @@ condmeans = d %>%
   gather(character, response, 
          -subid, -condition, -gender, -age, 
          -beliefGod, -education, -politicalIdeology, 
-         -maritalStatus, -children, -beliefAfterlife) %>%
+         -maritalStatus, -children, -beliefAfterlife,
+         -country) %>%
   group_by(condition, subid, character) %>%
   summarise(mean = mean(response, na.rm = T))
 
@@ -222,7 +241,7 @@ pca_A2_pc2 = pca_A2$loadings[,2]; sort(pca_A2_pc2)
 
 # plot PCs against each other
 # NOTE: need to adjust "1:18" depending on how many conditions are run
-ggplot(data.frame(pca_A2$loadings[1:18,]), aes(x = RC1, y = RC2, label = names(d1))) +
+ggplot(data.frame(pca_A2$loadings[1:8,]), aes(x = RC1, y = RC2, label = names(d1))) +
   geom_text() +
   theme_bw() +
   labs(title = "Factor loadings\n",
