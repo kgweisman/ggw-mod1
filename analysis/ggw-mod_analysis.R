@@ -54,13 +54,13 @@ d_india = d %>% filter(country == "india")
 dd_india = dd %>% filter(country == "india")
 
 # set group of interest
-# ... to US:
-d = d_us
-dd = dd_us
+# # ... to US:
+# d = d_us
+# dd = dd_us
 
-# # ... to India:
-# d = d_india
-# dd = dd_india
+# ... to India:
+d = d_india
+dd = dd_india
 
 # --- FILTERING BY ETHNICITY --------------------------------------------------
 
@@ -81,8 +81,8 @@ dd_nonwhite = dd %>%
 
 # set group of interest
 # ... to white:
-d = d_white
-dd = dd_white
+# d = d_white
+# dd = dd_white
 
 # # ... to nonwhite:
 # d = d_nonwhite
