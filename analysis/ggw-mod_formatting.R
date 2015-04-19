@@ -7,6 +7,7 @@ library(ggplot2)
 library(lme4)
 library(jsonlite)
 library(stats)
+library(stringr)
 
 # clear environment
 rm(list=ls())
@@ -33,6 +34,9 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
+    # run
+    run = "us_01",
+    
     # subject-level data: identity
     subid = paste0("S01",i),
     condition = jd$answers$data$newData$condition,
@@ -136,6 +140,9 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
+    # run
+    run = "us_02",
+    
     # subject-level data: identity
     subid = paste0("S02",i),
     condition = jd$answers$data$newData$condition,
@@ -239,6 +246,9 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
+    # run
+    run = "us_03",
+    
     # subject-level data: identity
     subid = paste0("S03",i),
     condition = jd$answers$data$newData$condition,
@@ -342,6 +352,9 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
+    # run
+    run = "us_04",
+    
     # subject-level data: identity
     subid = paste0("S04",i),
     condition = jd$answers$data$newData$condition,
@@ -445,6 +458,9 @@ for(i in 1:length(files)) {
   
   # store relevant variables in dataframe 
   id <- data.frame(
+    # run
+    run = "india_01",
+    
     # subject-level data: identity
     subid = paste0("S_india_01",i),
     condition = jd$answers$data$newData$condition,
@@ -528,6 +544,219 @@ for(i in 1:length(files)) {
 
 glimpse(d.raw_india_01)
 
+# ----------> India run-02 (2015-04-18) ---------------------------------------
+
+# set working directory
+setwd("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1_india/turk/india_run-02/")
+
+# mike's json for-loop
+files <- dir("production-results/")
+
+d.raw_india_02 <- data.frame()
+
+for(i in 1:length(files)) {
+  # gather files
+  f = files[i]
+  jf <- paste("production-results/",f,sep="")
+  
+  # parse JSON object
+  jd <- fromJSON(paste(readLines(jf), collapse=""))
+  
+  # store relevant variables in dataframe 
+  id <- data.frame(
+    # run
+    run = "india_02",
+    
+    # subject-level data: identity
+    subid = paste0("S_india_02",i),
+    condition = jd$answers$data$newData$condition,
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # trial-level data:                    
+    trialNum = jd$answers$data$newData$trialData$trialNum,
+    leftCharacter = jd$answers$data$newData$trialData$leftCharacter,
+    rightCharacter = jd$answers$data$newData$trialData$rightCharacter,
+    response = jd$answers$data$newData$trialData$response,
+    rt = jd$answers$data$newData$trialData$rt)
+  
+  # bind into same dataframe
+  d.raw_india_02 <- bind_rows(d.raw_india_02, id)
+}
+
+glimpse(d.raw_india_02)
+
+# ----------> India run-03 (2015-04-19) ---------------------------------------
+
+# set working directory
+setwd("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1_india/turk/india_run-03/")
+
+# mike's json for-loop
+files <- dir("production-results/")
+
+d.raw_india_03 <- data.frame()
+
+for(i in 1:length(files)) {
+  # gather files
+  f = files[i]
+  jf <- paste("production-results/",f,sep="")
+  
+  # parse JSON object
+  jd <- fromJSON(paste(readLines(jf), collapse=""))
+  
+  # store relevant variables in dataframe 
+  id <- data.frame(
+    # run
+    run = "india_03",
+    
+    # subject-level data: identity
+    subid = paste0("S_india_03",i),
+    condition = jd$answers$data$newData$condition,
+    compCheck = paste(jd$answers$data$newData$comprehensionCheck, collapse = ', '),
+    
+    # subject-level data: demographics
+    country = ifelse(
+      is.null(jd$answers$data$newData$country) == TRUE, "NA",
+      jd$answers$data$newData$country),    
+    age = ifelse(
+      is.null(jd$answers$data$newData$age) == TRUE, "NA",
+      jd$answers$data$newData$age),
+    gender = ifelse(
+      is.null(jd$answers$data$newData$gender) == TRUE, "NA",
+      jd$answers$data$newData$gender),
+    englishNative = ifelse(
+      is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
+      jd$answers$data$newData$englishNative),
+    ethnicity = ifelse(
+      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
+      jd$answers$data$newData$ethnicity),
+    education = ifelse(
+      is.null(jd$answers$data$newData$education) == TRUE, "NA",
+      jd$answers$data$newData$education),
+    religionChild = ifelse(
+      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
+      jd$answers$data$newData$religionChild),
+    religionNow = ifelse(
+      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
+      jd$answers$data$newData$religionNow),
+    politicalIdeology = ifelse(
+      is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
+      jd$answers$data$newData$politicalIdeology),
+    maritalStatus = ifelse(
+      is.null(jd$answers$data$newData$maritalStatus) == TRUE, "NA",
+      jd$answers$data$newData$maritalStatus),
+    children = ifelse(
+      is.null(jd$answers$data$newData$children) == TRUE, "NA",
+      jd$answers$data$newData$children),
+    job = ifelse(
+      is.null(jd$answers$data$newData$job) == TRUE, "NA",
+      jd$answers$data$newData$job),
+    
+    # subject-level data: experiences
+    studyMoralPhil = ifelse(
+      is.null(jd$answers$data$newData$studyMoralPhil) == TRUE, "NA",
+      jd$answers$data$newData$studyMoralPhil),
+    dog = ifelse(
+      is.null(jd$answers$data$newData$dog) == TRUE, "NA",
+      jd$answers$data$newData$dog),
+    vegetarian = ifelse(
+      is.null(jd$answers$data$newData$vegetarian) == TRUE, "NA",
+      jd$answers$data$newData$vegetarian),
+    
+    # subject-level data: beliefs
+    beliefRules = ifelse(
+      is.null(jd$answers$data$newData$beliefRules) == TRUE, "NA",
+      jd$answers$data$newData$beliefRules),
+    beliefGod = ifelse(
+      is.null(jd$answers$data$newData$beliefGod) == TRUE, "NA",
+      jd$answers$data$newData$beliefGod),
+    beliefAfterlife = ifelse(
+      is.null(jd$answers$data$newData$beliefAfterlife) == TRUE, "NA",
+      jd$answers$data$newData$beliefAfterlife),
+    beliefTradition = ifelse(
+      is.null(jd$answers$data$newData$beliefTradition) == TRUE, "NA",
+      jd$answers$data$newData$beliefTradition),
+    
+    # subject-level data: open-ended responses
+    comments = jd$answers$data$newData$comments,
+    
+    # trial-level data:                    
+    trialNum = jd$answers$data$newData$trialData$trialNum,
+    leftCharacter = jd$answers$data$newData$trialData$leftCharacter,
+    rightCharacter = jd$answers$data$newData$trialData$rightCharacter,
+    response = jd$answers$data$newData$trialData$response,
+    rt = jd$answers$data$newData$trialData$rt)
+  
+  # bind into same dataframe
+  d.raw_india_03 <- bind_rows(d.raw_india_03, id)
+}
+
+glimpse(d.raw_india_03)
+
 # --- TIDYING -----------------------------------------------------------------
 
 # clean up variables
@@ -535,45 +764,49 @@ d_tidy = full_join(d.raw_01, d.raw_02) %>%
   full_join(d.raw_03) %>%
   full_join(d.raw_04) %>%
   full_join(d.raw_india_01) %>%
-  mutate(subid = factor(subid),
-         country_selfrep = factor(country),
-         country = factor(ifelse(grepl("S_india", subid) == T,
-                                 "india",
-                                 "us")),
-         condition = ifelse(condition == "Emotion Recognition",
-                            "EmotionRecognition",
-                            condition),
-         condition = factor(condition),
-         age = as.numeric(age),
-         gender = factor(gender),
-         ethnicity = factor(ethnicity), # redo for multiple selected
-         education = factor(education),
-         religionChild = factor(religionChild), # redo for multiple selected
-         religionNow = factor(religionNow), # redo for multiple selected
-         children = factor(children),
-         englishNative = factor(englishNative),
-         politicalIdeology = factor(politicalIdeology),         
-         maritalStatus = factor(maritalStatus),         
-         children = as.numeric(children),
-         job = factor(job),
-         dog = factor(dog),                  
-         vegetarian = factor(vegetarian),         
-         studyMoralPhil = factor(studyMoralPhil),         
-         beliefGod = factor(beliefGod),         
-         beliefAfterlife = factor(beliefAfterlife),         
-         beliefTradition = factor(beliefTradition),         
-         beliefRules = factor(beliefRules),         
-#          beliefLeader = factor(beliefLeader), # lost this somewhere?         
-         leftCharacter = factor(leftCharacter),         
-         rightCharacter = factor(rightCharacter),         
-         response = factor(response),
-         responseNum =
-           ifelse(response == "much more left", -2,
-                  ifelse(response == "slightly more left", -1,
-                         ifelse(response == "both equally", 0,
-                                ifelse(response == "slightly more right", 1,
-                                       ifelse(response == "much more right", 2, NA)))))
-         )
+  full_join(d.raw_india_02) %>%
+  full_join(d.raw_india_03) %>%  
+  mutate(
+    run = factor(run),
+    subid = factor(subid),
+    country_selfrep = factor(country),
+    country = factor(ifelse(grepl("S_india", subid) == T, "india", "us")),
+    condition = ifelse(condition == "Emotion Recognition", "EmotionRecognition",
+                       condition),
+    condition = factor(condition),
+    compCheck = factor(compCheck),
+    compCheckCount = ifelse(compCheck == "NA", "NA",
+                            (str_count(compCheck, ',') + 1)),
+    age = as.numeric(age),
+    gender = factor(gender),
+    ethnicity = factor(ethnicity), # redo for multiple selected
+    education = factor(education),
+    religionChild = factor(religionChild), # redo for multiple selected
+    religionNow = factor(religionNow), # redo for multiple selected
+    children = factor(children),
+    englishNative = factor(englishNative),
+    politicalIdeology = factor(politicalIdeology),
+    maritalStatus = factor(maritalStatus),
+    children = as.numeric(children),
+    job = factor(job),
+    dog = factor(dog),
+    vegetarian = factor(vegetarian),
+    studyMoralPhil = factor(studyMoralPhil),
+    beliefGod = factor(beliefGod),
+    beliefAfterlife = factor(beliefAfterlife),
+    beliefTradition = factor(beliefTradition),
+    beliefRules = factor(beliefRules),
+    # beliefLeader = factor(beliefLeader), # lost this somewhere?
+    leftCharacter = factor(leftCharacter),
+    rightCharacter = factor(rightCharacter),
+    response = factor(response),
+    responseNum =
+      ifelse(response == "much more left", -2,
+             ifelse(response == "slightly more left", -1,
+                    ifelse(response == "both equally", 0,
+                           ifelse(response == "slightly more right", 1,
+                                  ifelse(response == "much more right", 2, NA)))))
+    )
 
 glimpse(d_tidy)
 
