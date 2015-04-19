@@ -54,18 +54,12 @@ for(i in 1:length(files)) {
     englishNative = ifelse(
       is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
       jd$answers$data$newData$englishNative),
-    ethnicity = ifelse(
-      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
-      jd$answers$data$newData$ethnicity),
+    ethnicity = paste(jd$answers$data$newData$ethnicity, collapse = ', '),
     education = ifelse(
       is.null(jd$answers$data$newData$education) == TRUE, "NA",
       jd$answers$data$newData$education),
-    religionChild = ifelse(
-      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
-      jd$answers$data$newData$religionChild),
-    religionNow = ifelse(
-      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
-      jd$answers$data$newData$religionNow),
+    religionChild = paste(jd$answers$data$newData$religionChild, collapse = ', '),
+    religionNow = paste(jd$answers$data$newData$religionNow, collapse = ', '),
     politicalIdeology = ifelse(
       is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
       jd$answers$data$newData$politicalIdeology),
@@ -160,18 +154,12 @@ for(i in 1:length(files)) {
     englishNative = ifelse(
       is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
       jd$answers$data$newData$englishNative),
-    ethnicity = ifelse(
-      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
-      jd$answers$data$newData$ethnicity),
+    ethnicity = paste(jd$answers$data$newData$ethnicity, collapse = ', '),
     education = ifelse(
       is.null(jd$answers$data$newData$education) == TRUE, "NA",
       jd$answers$data$newData$education),
-    religionChild = ifelse(
-      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
-      jd$answers$data$newData$religionChild),
-    religionNow = ifelse(
-      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
-      jd$answers$data$newData$religionNow),
+    religionChild = paste(jd$answers$data$newData$religionChild, collapse = ', '),
+    religionNow = paste(jd$answers$data$newData$religionNow, collapse = ', '),
     politicalIdeology = ifelse(
       is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
       jd$answers$data$newData$politicalIdeology),
@@ -266,18 +254,12 @@ for(i in 1:length(files)) {
     englishNative = ifelse(
       is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
       jd$answers$data$newData$englishNative),
-    ethnicity = ifelse(
-      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
-      jd$answers$data$newData$ethnicity),
+    ethnicity = paste(jd$answers$data$newData$ethnicity, collapse = ', '),
     education = ifelse(
       is.null(jd$answers$data$newData$education) == TRUE, "NA",
       jd$answers$data$newData$education),
-    religionChild = ifelse(
-      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
-      jd$answers$data$newData$religionChild),
-    religionNow = ifelse(
-      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
-      jd$answers$data$newData$religionNow),
+    religionChild = paste(jd$answers$data$newData$religionChild, collapse = ', '),
+    religionNow = paste(jd$answers$data$newData$religionNow, collapse = ', '),
     politicalIdeology = ifelse(
       is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
       jd$answers$data$newData$politicalIdeology),
@@ -372,18 +354,12 @@ for(i in 1:length(files)) {
     englishNative = ifelse(
       is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
       jd$answers$data$newData$englishNative),
-    ethnicity = ifelse(
-      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
-      jd$answers$data$newData$ethnicity),
+    ethnicity = paste(jd$answers$data$newData$ethnicity, collapse = ', '),
     education = ifelse(
       is.null(jd$answers$data$newData$education) == TRUE, "NA",
       jd$answers$data$newData$education),
-    religionChild = ifelse(
-      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
-      jd$answers$data$newData$religionChild),
-    religionNow = ifelse(
-      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
-      jd$answers$data$newData$religionNow),
+    religionChild = paste(jd$answers$data$newData$religionChild, collapse = ', '),
+    religionNow = paste(jd$answers$data$newData$religionNow, collapse = ', '),
     politicalIdeology = ifelse(
       is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
       jd$answers$data$newData$politicalIdeology),
@@ -478,18 +454,12 @@ for(i in 1:length(files)) {
     englishNative = ifelse(
       is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
       jd$answers$data$newData$englishNative),
-    ethnicity = ifelse(
-      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
-      jd$answers$data$newData$ethnicity),
+    ethnicity = paste(jd$answers$data$newData$ethnicity, collapse = ', '),
     education = ifelse(
       is.null(jd$answers$data$newData$education) == TRUE, "NA",
       jd$answers$data$newData$education),
-    religionChild = ifelse(
-      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
-      jd$answers$data$newData$religionChild),
-    religionNow = ifelse(
-      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
-      jd$answers$data$newData$religionNow),
+    religionChild = paste(jd$answers$data$newData$religionChild, collapse = ', '),
+    religionNow = paste(jd$answers$data$newData$religionNow, collapse = ', '),
     politicalIdeology = ifelse(
       is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
       jd$answers$data$newData$politicalIdeology),
@@ -584,18 +554,12 @@ for(i in 1:length(files)) {
     englishNative = ifelse(
       is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
       jd$answers$data$newData$englishNative),
-    ethnicity = ifelse(
-      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
-      jd$answers$data$newData$ethnicity),
+    ethnicity = paste(jd$answers$data$newData$ethnicity, collapse = ', '),
     education = ifelse(
       is.null(jd$answers$data$newData$education) == TRUE, "NA",
       jd$answers$data$newData$education),
-    religionChild = ifelse(
-      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
-      jd$answers$data$newData$religionChild),
-    religionNow = ifelse(
-      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
-      jd$answers$data$newData$religionNow),
+    religionChild = paste(jd$answers$data$newData$religionChild, collapse = ', '),
+    religionNow = paste(jd$answers$data$newData$religionNow, collapse = ', '),
     politicalIdeology = ifelse(
       is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
       jd$answers$data$newData$politicalIdeology),
@@ -691,18 +655,12 @@ for(i in 1:length(files)) {
     englishNative = ifelse(
       is.null(jd$answers$data$newData$englishNative) == TRUE, "NA",
       jd$answers$data$newData$englishNative),
-    ethnicity = ifelse(
-      is.list(jd$answers$data$newData$ethnicity) == TRUE, "NA",
-      jd$answers$data$newData$ethnicity),
+    ethnicity = paste(jd$answers$data$newData$ethnicity, collapse = ', '),
     education = ifelse(
       is.null(jd$answers$data$newData$education) == TRUE, "NA",
       jd$answers$data$newData$education),
-    religionChild = ifelse(
-      is.list(jd$answers$data$newData$religionChild) == TRUE, "NA",
-      jd$answers$data$newData$religionChild),
-    religionNow = ifelse(
-      is.list(jd$answers$data$newData$religionNow) == TRUE, "NA",
-      jd$answers$data$newData$religionNow),
+    religionChild = paste(jd$answers$data$newData$religionChild, collapse = ', '),
+    religionNow = paste(jd$answers$data$newData$religionNow, collapse = ', '),
     politicalIdeology = ifelse(
       is.null(jd$answers$data$newData$politicalIdeology) == TRUE, "NA",
       jd$answers$data$newData$politicalIdeology),
