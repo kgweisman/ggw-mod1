@@ -476,7 +476,7 @@ for(i in 1:length(files)) {
   # store relevant variables in dataframe 
   id <- data.frame(
     # subject-level data: identity
-    subid = paste0("S01",i),
+    subid = paste0("S_india_01",i),
     condition = jd$answers$data$newData$condition,
     
     # subject-level data: demographics
@@ -575,7 +575,7 @@ d_tidy = full_join(d.raw_01, d.raw_02) %>%
   full_join(d.raw_india_01) %>%
   mutate(subid = factor(subid),
          country_selfrep = factor(country),
-         country = factor(ifelse(grepl("Sindia", subid) == T,
+         country = factor(ifelse(grepl("S_india", subid) == T,
                                  "india",
                                  "us")),
          condition = ifelse(condition == "Emotion Recognition",
