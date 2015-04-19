@@ -119,12 +119,12 @@ dd_nonwhite = dd %>%
 
 # set group of interest
 # ... to white:
-d = d_white
-dd = dd_white
+# d = d_white
+# dd = dd_white
 
 # # ... to nonwhite:
-# d = d_nonwhite
-# dd = dd_nonwhite
+d = d_nonwhite
+dd = dd_nonwhite
 
 # --- FORMATTING DATA ---------------------------------------------------------
 
@@ -190,69 +190,87 @@ print(d3)
 
 # --- DEMOGRAPHICS ------------------------------------------------------------
 
+demo = dd %>% distinct(subid)
+
 # total n
-dd %>% distinct(subid) %>% summarise(n = length(subid))
+demo %>% summarise(n = length(subid))
 
 # condition assignment
 dd %>% group_by(condition) %>% distinct(subid) %>% summarise(n = length(subid))
 
 # gender
-dd %>% distinct(subid) %>% count(gender)
+demo %>% count(gender)
 
 # ethnicity
-dd %>% distinct(subid) %>% count(ethnicity)
+demo %>% count(ethnicity)
 
 # age
-dd %>% distinct(subid) %>% summarise(mean_age = mean(age, na.rm = T),
-                                     sd_age = sd(age, na.rm = T))
+demo %>% summarise(mean_age = mean(age, na.rm = T), sd_age = sd(age, na.rm = T))
+qplot(demo$age)
 
 # education
-dd %>% distinct(subid) %>% count(education)
+levels(demo$education) = c("hs_some", "hs_diploma", "college_some", 
+                     "college_assocDegree", "college_bachDegree",
+                     "grad_some", "grad_degree")
+demo %>% count(education)
 
 # englishNative
-dd %>% distinct(subid) %>% count(englishNative)
+demo %>% count(englishNative)
 
 # politicalIdeology
-dd %>% distinct(subid) %>% count(politicalIdeology)
+demo %>% count(politicalIdeology)
 
 # religionChild
-dd %>% distinct(subid) %>% count(religionChild)
+demo %>% count(religionChild)
 
 # religionNow
-dd %>% distinct(subid) %>% count(religionNow)
+demo %>% count(religionNow)
 
 # maritalStatus
-dd %>% distinct(subid) %>% count(maritalStatus)
+demo %>% count(maritalStatus)
 
 # children
-dd %>% distinct(subid) %>% summarise(mean_children = mean(children, na.rm = T),
-                                     sd_children = sd(children, na.rm = T))
+demo %>% summarise(mean_children = mean(children, na.rm = T),
+                   sd_children = sd(children, na.rm = T))
+qplot(demo$children)
 
 # job
-View(dd %>% distinct(subid) %>% 
+View(demo %>% 
   mutate(job = factor(tolower(as.character(job)))) %>%
   count(job))
 
 # studyMoralPhil
-dd %>% distinct(subid) %>% count(studyMoralPhil)
+demo %>% count(studyMoralPhil)
 
 # dog
-dd %>% distinct(subid) %>% count(dog)
+demo %>% count(dog)
 
 # vegetarian
-dd %>% distinct(subid) %>% count(vegetarian)
+demo %>% count(vegetarian)
 
 # beliefRules
-dd %>% distinct(subid) %>% count(beliefRules)
+levels(demo$beliefRules) = c("disagree_strong", "disagree_moderate", 
+                             "disagree_little", "neither", "agree_little",
+                             "agree_moderate", "agree_strong")
+demo %>% count(beliefRules)
 
 # beliefGod
-dd %>% distinct(subid) %>% count(beliefGod)
+levels(demo$beliefGod) = c("disagree_strong", "disagree_moderate", 
+                             "disagree_little", "neither", "agree_little",
+                             "agree_moderate", "agree_strong")
+demo %>% count(beliefGod)
 
 # beliefAfterlife
-dd %>% distinct(subid) %>% count(beliefAfterlife)
+levels(demo$beliefAfterlife) = c("disagree_strong", "disagree_moderate", 
+                             "disagree_little", "neither", "agree_little",
+                             "agree_moderate", "agree_strong")
+demo %>% count(beliefAfterlife)
 
 # beliefTradition
-dd %>% distinct(subid) %>% count(beliefTradition)
+levels(demo$beliefTradition) = c("disagree_strong", "disagree_moderate", 
+                             "disagree_little", "neither", "agree_little",
+                             "agree_moderate", "agree_strong")
+demo %>% count(beliefTradition)
 
 ################################################### analysis & plots pt 1 #####
 
