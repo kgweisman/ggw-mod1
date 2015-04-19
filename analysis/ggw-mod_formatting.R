@@ -213,10 +213,10 @@ d_tidy = full_join(d_us_run_01, d_us_run_02) %>%
                             (str_count(compCheckMulti, ',') + 1))),
     age = as.numeric(age),
     gender = factor(gender),
-    ethnicity = factor(ethnicity), # redo for multiple selected
+    ethnicity = factor(ethnicity),
     education = factor(education),
-    religionChild = factor(religionChild), # redo for multiple selected
-    religionNow = factor(religionNow), # redo for multiple selected
+    religionChild = factor(religionChild),
+    religionNow = factor(religionNow),
     children = factor(children),
     englishNative = factor(englishNative),
     politicalIdeology = factor(politicalIdeology),
