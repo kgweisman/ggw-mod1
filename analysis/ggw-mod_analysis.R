@@ -119,8 +119,8 @@ dd_nonwhite = dd %>%
 
 # set group of interest
 # ... to white:
-# d = d_white
-# dd = dd_white
+d = d_white
+dd = dd_white
 
 # # ... to nonwhite:
 # d = d_nonwhite
@@ -222,6 +222,16 @@ demo %>% count(politicalIdeology)
 
 # religionChild
 demo %>% count(religionChild)
+
+demo = demo %>%
+  filter(religionChild != "prefNo" & religionChild != "NA") %>%
+  mutate(religCat = ifelse(grepl("christ", religionChild) == T |
+                             religionChild == "judaism",
+                           "judeo-christian",
+                           ifelse(religionChild == "none",
+                                  "non-religious",
+                                  "other religious")))
+demo %>% count(religCat)
 
 # religionNow
 demo %>% count(religionNow)
