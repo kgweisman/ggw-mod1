@@ -123,8 +123,8 @@ dd_nonwhite = dd %>%
 # dd = dd_white
 
 # # ... to nonwhite:
-d = d_nonwhite
-dd = dd_nonwhite
+# d = d_nonwhite
+# dd = dd_nonwhite
 
 # --- FORMATTING DATA ---------------------------------------------------------
 
@@ -232,7 +232,7 @@ demo %>% count(maritalStatus)
 # children
 demo %>% summarise(mean_children = mean(children, na.rm = T),
                    sd_children = sd(children, na.rm = T))
-qplot(demo$children)
+qplot(demo$children, binwidth = 1)
 
 # job
 View(demo %>% 
