@@ -66,9 +66,6 @@ jsonFormat = function(wd, runName) {
         ifelse(
           is.null(jd$answers$data$newData$comprehensionCheck) == TRUE, "NA",
           paste(jd$answers$data$newData$comprehensionCheck, collapse = ', '))),
-#       compCheck = ifelse(
-#         is.null(jd$answers$data$newData$comprehensionCheck) == TRUE, "NA",
-#         paste(jd$answers$data$newData$comprehensionCheck, collapse = ', ')),
       
       # subject-level data: demographics
       country = ifelse(
