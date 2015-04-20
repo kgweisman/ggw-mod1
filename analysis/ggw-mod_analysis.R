@@ -31,7 +31,7 @@ dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/gg
 
 glimpse(dd)
 
-# --- FILTERING RTS -----------------------------------------------------------
+# --- FILTERING BY RTS --------------------------------------------------------
 
 # # filter out trials where log_rt < 2SDs below mean
 # dd = dd %>%
@@ -44,6 +44,15 @@ glimpse(dd)
 #   filter(prop_under > .5)
 # 
 # View(dd %>% group_by(subid) %>% summarise(trials_completed = length(log_rt)))
+
+# --- FILTERING BY COMPREHENSION CHECK ----------------------------------------
+
+# NOTE: currently only works for india run 03 and on!
+d_comp2 = d %>% filter (compCheckCount < 2)
+dd_comp2 = dd %>% filter (compCheckCount < 2)
+
+d = d_comp2
+dd = dd_comp2
 
 # --- FILTERING BY COUNTRY ----------------------------------------------------
 
@@ -2525,5 +2534,5 @@ plot(mds_thought_Aordinal,
 #      main = "MDS residuals: SELF-CONTROL")
 
 # stop plotting in 2x2 grid
-par(mfrow = c(1,1))
+# par(mfrow = c(1,1))
 
