@@ -1786,3 +1786,46 @@ thought_dist_baby = sqrt((mds_thought_Aordinal$conf["baby","D1"] - mds_thought_A
 dist_baby = cbind(communication_dist_baby, consciousness_dist_baby, desire_dist_baby, embarrassment_dist_baby, emotionrecognition_dist_baby, fear_dist_baby, hunger_dist_baby, joy_dist_baby, selfcontrol_dist_baby, morality_dist_baby, pain_dist_baby, personality_dist_baby, planning_dist_baby, pleasure_dist_baby, pride_dist_baby, rage_dist_baby, selfcontrol_dist_baby, thought_dist_baby)
 colnames(dist_baby) = tolower(levels(d$condition))
 
+## ----------------> target: PVS MAN ------------------------------------------
+
+# distance between PVS man and all other characters
+# ... communication
+communication_dist_PVS = sqrt((mds_communication_Aordinal$conf["PVS man","D1"] - mds_communication_Aordinal$conf[,"D1"])^2 + (mds_communication_Aordinal$conf["PVS man","D2"] - mds_communication_Aordinal$conf[,"D2"])^2)
+# ... consciousness
+consciousness_dist_PVS = sqrt((mds_consciousness_Aordinal$conf["PVS man","D1"] - mds_consciousness_Aordinal$conf[,"D1"])^2 + (mds_consciousness_Aordinal$conf["PVS man","D2"] - mds_consciousness_Aordinal$conf[,"D2"])^2)
+# ... desire
+desire_dist_PVS = sqrt((mds_desire_Aordinal$conf["PVS man","D1"] - mds_desire_Aordinal$conf[,"D1"])^2 + (mds_desire_Aordinal$conf["PVS man","D2"] - mds_desire_Aordinal$conf[,"D2"])^2)
+# ... embarrassment
+embarrassment_dist_PVS = sqrt((mds_embarrassment_Aordinal$conf["PVS man","D1"] - mds_embarrassment_Aordinal$conf[,"D1"])^2 + (mds_embarrassment_Aordinal$conf["PVS man","D2"] - mds_embarrassment_Aordinal$conf[,"D2"])^2)
+# ... emotionrecognition
+emotionrecognition_dist_PVS = sqrt((mds_emotionrecognition_Aordinal$conf["PVS man","D1"] - mds_emotionrecognition_Aordinal$conf[,"D1"])^2 + (mds_emotionrecognition_Aordinal$conf["PVS man","D2"] - mds_emotionrecognition_Aordinal$conf[,"D2"])^2)
+# ... fear
+fear_dist_PVS = sqrt((mds_fear_Aordinal$conf["PVS man","D1"] - mds_fear_Aordinal$conf[,"D1"])^2 + (mds_fear_Aordinal$conf["PVS man","D2"] - mds_fear_Aordinal$conf[,"D2"])^2)
+# ... hunger
+hunger_dist_PVS = sqrt((mds_hunger_Aordinal$conf["PVS man","D1"] - mds_hunger_Aordinal$conf[,"D1"])^2 + (mds_hunger_Aordinal$conf["PVS man","D2"] - mds_hunger_Aordinal$conf[,"D2"])^2)
+# ... joy
+joy_dist_PVS = sqrt((mds_joy_Aordinal$conf["PVS man","D1"] - mds_joy_Aordinal$conf[,"D1"])^2 + (mds_joy_Aordinal$conf["PVS man","D2"] - mds_joy_Aordinal$conf[,"D2"])^2)
+# ... selfcontrol
+selfcontrol_dist_PVS = sqrt((mds_selfcontrol_Aordinal$conf["PVS man","D1"] - mds_selfcontrol_Aordinal$conf[,"D1"])^2 + (mds_selfcontrol_Aordinal$conf["PVS man","D2"] - mds_selfcontrol_Aordinal$conf[,"D2"])^2)
+# ... morality
+morality_dist_PVS = sqrt((mds_morality_Aordinal$conf["PVS man","D1"] - mds_morality_Aordinal$conf[,"D1"])^2 + (mds_morality_Aordinal$conf["PVS man","D2"] - mds_morality_Aordinal$conf[,"D2"])^2)
+# ... pain
+pain_dist_PVS = sqrt((mds_pain_Aordinal$conf["PVS man","D1"] - mds_pain_Aordinal$conf[,"D1"])^2 + (mds_pain_Aordinal$conf["PVS man","D2"] - mds_pain_Aordinal$conf[,"D2"])^2)
+# ... personality
+personality_dist_PVS = sqrt((mds_personality_Aordinal$conf["PVS man","D1"] - mds_personality_Aordinal$conf[,"D1"])^2 + (mds_personality_Aordinal$conf["PVS man","D2"] - mds_personality_Aordinal$conf[,"D2"])^2)
+# ... planning
+planning_dist_PVS = sqrt((mds_planning_Aordinal$conf["PVS man","D1"] - mds_planning_Aordinal$conf[,"D1"])^2 + (mds_planning_Aordinal$conf["PVS man","D2"] - mds_planning_Aordinal$conf[,"D2"])^2)
+# ... pleasure
+pleasure_dist_PVS = sqrt((mds_pleasure_Aordinal$conf["PVS man","D1"] - mds_pleasure_Aordinal$conf[,"D1"])^2 + (mds_pleasure_Aordinal$conf["PVS man","D2"] - mds_pleasure_Aordinal$conf[,"D2"])^2)
+# ... pride
+pride_dist_PVS = sqrt((mds_pride_Aordinal$conf["PVS man","D1"] - mds_pride_Aordinal$conf[,"D1"])^2 + (mds_pride_Aordinal$conf["PVS man","D2"] - mds_pride_Aordinal$conf[,"D2"])^2)
+# ... rage
+rage_dist_PVS = sqrt((mds_rage_Aordinal$conf["PVS man","D1"] - mds_rage_Aordinal$conf[,"D1"])^2 + (mds_rage_Aordinal$conf["PVS man","D2"] - mds_rage_Aordinal$conf[,"D2"])^2)
+# ... selfcontrol
+selfcontrol_dist_PVS = sqrt((mds_selfcontrol_Aordinal$conf["PVS man","D1"] - mds_selfcontrol_Aordinal$conf[,"D1"])^2 + (mds_selfcontrol_Aordinal$conf["PVS man","D2"] - mds_selfcontrol_Aordinal$conf[,"D2"])^2)
+# ... thought
+thought_dist_PVS = sqrt((mds_thought_Aordinal$conf["PVS man","D1"] - mds_thought_Aordinal$conf[,"D1"])^2 + (mds_thought_Aordinal$conf["PVS man","D2"] - mds_thought_Aordinal$conf[,"D2"])^2)
+
+dist_PVS = cbind(communication_dist_PVS, consciousness_dist_PVS, desire_dist_PVS, embarrassment_dist_PVS, emotionrecognition_dist_PVS, fear_dist_PVS, hunger_dist_PVS, joy_dist_PVS, selfcontrol_dist_PVS, morality_dist_PVS, pain_dist_PVS, personality_dist_PVS, planning_dist_PVS, pleasure_dist_PVS, pride_dist_PVS, rage_dist_PVS, selfcontrol_dist_PVS, thought_dist_PVS)
+colnames(dist_PVS) = tolower(levels(d$condition))
+
