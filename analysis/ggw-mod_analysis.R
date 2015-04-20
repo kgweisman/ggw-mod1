@@ -170,6 +170,9 @@ demo %>% count(ethnicity)
 demo %>% summarise(mean_age = mean(age, na.rm = T), sd_age = sd(age, na.rm = T))
 qplot(demo$age)
 
+# demo %>% filter(age < 100) %>% summarise(mean_age = mean(age, na.rm = T), sd_age = sd(age, na.rm = T))
+# qplot(demo$age[demo$age < 100])
+
 # education
 levels(demo$education) = c("hs_some", "hs_diploma", "college_some", 
                      "college_assocDegree", "college_bachDegree",
