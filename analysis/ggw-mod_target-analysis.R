@@ -22,16 +22,16 @@ dev.off()
 # --- IMPORTING DATA ----------------------------------------------------------
 
 # read in data: character means
-d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02_2015-03-16_charmeans.csv")[-1] # get rid of column of obs numbers
+d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04&india01_2015-04-17_charmeans.csv")[-1] # get rid of column of obs numbers
 
 glimpse(d)
 
 # read in data: individual scores
-dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02_2015-03-16_data_anonymized.csv")[-1] # get rid of column of obs numbers
+dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04&india01_2015-04-17_data_anonymized.csv")[-1] # get rid of column of obs numbers
 
 glimpse(dd)
 
-# --- FILTERING DATA ----------------------------------------------------------
+# --- FILTERING BY RTS --------------------------------------------------------
 
 # # filter out trials where log_rt < 2SDs below mean
 # dd = dd %>%
@@ -45,14 +45,68 @@ glimpse(dd)
 # 
 # View(dd %>% group_by(subid) %>% summarise(trials_completed = length(log_rt)))
 
+# --- FILTERING BY COMPREHENSION CHECK ----------------------------------------
+
+# NOTE: currently only works for india run 03 and on!
+d_comp2 = d %>% filter (compCheckCount < 2)
+dd_comp2 = dd %>% filter (compCheckCount < 2)
+
+# d = d_comp2
+# dd = dd_comp2
+
+# --- FILTERING BY COUNTRY ----------------------------------------------------
+
+d_us = d %>% filter(country == "us")
+dd_us = dd %>% filter(country == "us")
+
+d_india = d %>% filter(country == "india")
+dd_india = dd %>% filter(country == "india")
+
+# set group of interest
+# ... to US:
+d = d_us
+dd = dd_us
+
+# # ... to India:
+# d = d_india
+# dd = dd_india
+
+# --- FILTERING BY ETHNICITY --------------------------------------------------
+
+d_white = d %>%
+  filter(ethnicity == "white")
+dd_white = dd %>%
+  filter(ethnicity == "white")
+
+d_nonwhite = d %>%
+  filter(ethnicity != "white" & 
+           ethnicity != "NA" & 
+           ethnicity != "other_prefNo")
+
+dd_nonwhite = dd %>%
+  filter(ethnicity != "white" & 
+           ethnicity != "NA" & 
+           ethnicity != "other_prefNo")
+
+# set group of interest
+# ... to white:
+# d = d_white
+# dd = dd_white
+
+# # ... to nonwhite:
+# d = d_nonwhite
+# dd = dd_nonwhite
+
 # --- FORMATTING DATA ---------------------------------------------------------
 
 # make table of character means by mental capacity
 charmeans = d %>%
-  gather(character, response, 
-         -subid, -condition, -gender, -age, 
-         -beliefGod, -education, -politicalIdeology, 
-         -maritalStatus, -children, -beliefAfterlife) %>%
+  select(condition, subid, gerald_schiff_pvs, toby_chimp, fetus, god,
+         delores_gleitman_deceased, sharon_harvey_woman, green_frog,
+         todd_billingsley_man, charlie_dog, nicholas_gannon_baby,
+         samantha_hill_girl, kismet_robot, you) %>%  
+  gather(character, response,
+         -condition, -subid) %>%
   group_by(condition, character) %>%
   summarise(mean = mean(response, na.rm = T))
 
@@ -82,14 +136,14 @@ print(d1)
 # make table of mental capacity means by character
 # formatted in wideform with characters as rows
 condmeans = d %>%
-  gather(character, response, 
-         -subid, -condition, -gender, -age, 
-         -beliefGod, -education, -politicalIdeology, 
-         -maritalStatus, -children, -beliefAfterlife) %>%
-  group_by(condition, subid, character) %>%
+  select(condition, subid, gerald_schiff_pvs, toby_chimp, fetus, god,
+         delores_gleitman_deceased, sharon_harvey_woman, green_frog,
+         todd_billingsley_man, charlie_dog, nicholas_gannon_baby,
+         samantha_hill_girl, kismet_robot, you) %>%  
+  gather(character, response,
+         -condition, -subid) %>%
+  group_by(condition, character) %>%
   summarise(mean = mean(response, na.rm = T))
-
-glimpse(condmeans)
 
 # format into wideform with characters as rows
 condmeans_table = condmeans %>%
@@ -135,7 +189,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_communicationilarity values
+# make upper matrix of dissimilarity values
 dissim_communication <- dissim_communication %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -209,7 +263,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_consciousnessilarity values
+# make upper matrix of dissimilarity values
 dissim_consciousness <- dissim_consciousness %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -283,7 +337,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_desireilarity values
+# make upper matrix of dissimilarity values
 dissim_desire <- dissim_desire %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -357,7 +411,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_embarrassmentilarity values
+# make upper matrix of dissimilarity values
 dissim_embarrassment <- dissim_embarrassment %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -431,7 +485,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_emotionrecognitionilarity values
+# make upper matrix of dissimilarity values
 dissim_emotionrecognition <- dissim_emotionrecognition %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -505,7 +559,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_fearilarity values
+# make upper matrix of dissimilarity values
 dissim_fear <- dissim_fear %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -579,7 +633,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_hungerilarity values
+# make upper matrix of dissimilarity values
 dissim_hunger <- dissim_hunger %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -653,7 +707,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_joyilarity values
+# make upper matrix of dissimilarity values
 dissim_joy <- dissim_joy %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -727,7 +781,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_memoryilarity values
+# make upper matrix of dissimilarity values
 dissim_memory <- dissim_memory %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -801,7 +855,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_moralityilarity values
+# make upper matrix of dissimilarity values
 dissim_morality <- dissim_morality %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -875,7 +929,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_painilarity values
+# make upper matrix of dissimilarity values
 dissim_pain <- dissim_pain %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -949,7 +1003,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_personalityilarity values
+# make upper matrix of dissimilarity values
 dissim_personality <- dissim_personality %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -1023,7 +1077,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_planningilarity values
+# make upper matrix of dissimilarity values
 dissim_planning <- dissim_planning %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -1097,7 +1151,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_pleasureilarity values
+# make upper matrix of dissimilarity values
 dissim_pleasure <- dissim_pleasure %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -1171,7 +1225,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_prideilarity values
+# make upper matrix of dissimilarity values
 dissim_pride <- dissim_pride %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -1245,7 +1299,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_rageilarity values
+# make upper matrix of dissimilarity values
 dissim_rage <- dissim_rage %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -1319,7 +1373,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_selfcontrolilarity values
+# make upper matrix of dissimilarity values
 dissim_selfcontrol <- dissim_selfcontrol %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -1393,7 +1447,7 @@ for(i in 1:length(charsort)) {
            character2 = factor(character2))
 }
 
-# make upper matrix of dissim_thoughtilarity values
+# make upper matrix of dissimilarity values
 dissim_thought <- dissim_thought %>%
   select(condition, subid, character1, character2, responseNum) %>%
   group_by(character1, character2) %>%
@@ -1646,6 +1700,8 @@ mds_thought_Aordinal
 
 # --------> distances ---------------------------------------------------------
 
+## ----------------> target: ROBOT --------------------------------------------
+
 # distance between robot and all other characters
 # ... communication
 communication_dist_robot = sqrt((mds_communication_Aordinal$conf["robot","D1"] - mds_communication_Aordinal$conf[,"D1"])^2 + (mds_communication_Aordinal$conf["robot","D2"] - mds_communication_Aordinal$conf[,"D2"])^2)
@@ -1686,3 +1742,47 @@ thought_dist_robot = sqrt((mds_thought_Aordinal$conf["robot","D1"] - mds_thought
 
 dist_robot = cbind(communication_dist_robot, consciousness_dist_robot, desire_dist_robot, embarrassment_dist_robot, emotionrecognition_dist_robot, fear_dist_robot, hunger_dist_robot, joy_dist_robot, selfcontrol_dist_robot, morality_dist_robot, pain_dist_robot, personality_dist_robot, planning_dist_robot, pleasure_dist_robot, pride_dist_robot, rage_dist_robot, selfcontrol_dist_robot, thought_dist_robot)
 colnames(dist_robot) = tolower(levels(d$condition))
+
+## ----------------> target: BABY ---------------------------------------------
+
+# distance between baby and all other characters
+# ... communication
+communication_dist_baby = sqrt((mds_communication_Aordinal$conf["baby","D1"] - mds_communication_Aordinal$conf[,"D1"])^2 + (mds_communication_Aordinal$conf["baby","D2"] - mds_communication_Aordinal$conf[,"D2"])^2)
+# ... consciousness
+consciousness_dist_baby = sqrt((mds_consciousness_Aordinal$conf["baby","D1"] - mds_consciousness_Aordinal$conf[,"D1"])^2 + (mds_consciousness_Aordinal$conf["baby","D2"] - mds_consciousness_Aordinal$conf[,"D2"])^2)
+# ... desire
+desire_dist_baby = sqrt((mds_desire_Aordinal$conf["baby","D1"] - mds_desire_Aordinal$conf[,"D1"])^2 + (mds_desire_Aordinal$conf["baby","D2"] - mds_desire_Aordinal$conf[,"D2"])^2)
+# ... embarrassment
+embarrassment_dist_baby = sqrt((mds_embarrassment_Aordinal$conf["baby","D1"] - mds_embarrassment_Aordinal$conf[,"D1"])^2 + (mds_embarrassment_Aordinal$conf["baby","D2"] - mds_embarrassment_Aordinal$conf[,"D2"])^2)
+# ... emotionrecognition
+emotionrecognition_dist_baby = sqrt((mds_emotionrecognition_Aordinal$conf["baby","D1"] - mds_emotionrecognition_Aordinal$conf[,"D1"])^2 + (mds_emotionrecognition_Aordinal$conf["baby","D2"] - mds_emotionrecognition_Aordinal$conf[,"D2"])^2)
+# ... fear
+fear_dist_baby = sqrt((mds_fear_Aordinal$conf["baby","D1"] - mds_fear_Aordinal$conf[,"D1"])^2 + (mds_fear_Aordinal$conf["baby","D2"] - mds_fear_Aordinal$conf[,"D2"])^2)
+# ... hunger
+hunger_dist_baby = sqrt((mds_hunger_Aordinal$conf["baby","D1"] - mds_hunger_Aordinal$conf[,"D1"])^2 + (mds_hunger_Aordinal$conf["baby","D2"] - mds_hunger_Aordinal$conf[,"D2"])^2)
+# ... joy
+joy_dist_baby = sqrt((mds_joy_Aordinal$conf["baby","D1"] - mds_joy_Aordinal$conf[,"D1"])^2 + (mds_joy_Aordinal$conf["baby","D2"] - mds_joy_Aordinal$conf[,"D2"])^2)
+# ... selfcontrol
+selfcontrol_dist_baby = sqrt((mds_selfcontrol_Aordinal$conf["baby","D1"] - mds_selfcontrol_Aordinal$conf[,"D1"])^2 + (mds_selfcontrol_Aordinal$conf["baby","D2"] - mds_selfcontrol_Aordinal$conf[,"D2"])^2)
+# ... morality
+morality_dist_baby = sqrt((mds_morality_Aordinal$conf["baby","D1"] - mds_morality_Aordinal$conf[,"D1"])^2 + (mds_morality_Aordinal$conf["baby","D2"] - mds_morality_Aordinal$conf[,"D2"])^2)
+# ... pain
+pain_dist_baby = sqrt((mds_pain_Aordinal$conf["baby","D1"] - mds_pain_Aordinal$conf[,"D1"])^2 + (mds_pain_Aordinal$conf["baby","D2"] - mds_pain_Aordinal$conf[,"D2"])^2)
+# ... personality
+personality_dist_baby = sqrt((mds_personality_Aordinal$conf["baby","D1"] - mds_personality_Aordinal$conf[,"D1"])^2 + (mds_personality_Aordinal$conf["baby","D2"] - mds_personality_Aordinal$conf[,"D2"])^2)
+# ... planning
+planning_dist_baby = sqrt((mds_planning_Aordinal$conf["baby","D1"] - mds_planning_Aordinal$conf[,"D1"])^2 + (mds_planning_Aordinal$conf["baby","D2"] - mds_planning_Aordinal$conf[,"D2"])^2)
+# ... pleasure
+pleasure_dist_baby = sqrt((mds_pleasure_Aordinal$conf["baby","D1"] - mds_pleasure_Aordinal$conf[,"D1"])^2 + (mds_pleasure_Aordinal$conf["baby","D2"] - mds_pleasure_Aordinal$conf[,"D2"])^2)
+# ... pride
+pride_dist_baby = sqrt((mds_pride_Aordinal$conf["baby","D1"] - mds_pride_Aordinal$conf[,"D1"])^2 + (mds_pride_Aordinal$conf["baby","D2"] - mds_pride_Aordinal$conf[,"D2"])^2)
+# ... rage
+rage_dist_baby = sqrt((mds_rage_Aordinal$conf["baby","D1"] - mds_rage_Aordinal$conf[,"D1"])^2 + (mds_rage_Aordinal$conf["baby","D2"] - mds_rage_Aordinal$conf[,"D2"])^2)
+# ... selfcontrol
+selfcontrol_dist_baby = sqrt((mds_selfcontrol_Aordinal$conf["baby","D1"] - mds_selfcontrol_Aordinal$conf[,"D1"])^2 + (mds_selfcontrol_Aordinal$conf["baby","D2"] - mds_selfcontrol_Aordinal$conf[,"D2"])^2)
+# ... thought
+thought_dist_baby = sqrt((mds_thought_Aordinal$conf["baby","D1"] - mds_thought_Aordinal$conf[,"D1"])^2 + (mds_thought_Aordinal$conf["baby","D2"] - mds_thought_Aordinal$conf[,"D2"])^2)
+
+dist_baby = cbind(communication_dist_baby, consciousness_dist_baby, desire_dist_baby, embarrassment_dist_baby, emotionrecognition_dist_baby, fear_dist_baby, hunger_dist_baby, joy_dist_baby, selfcontrol_dist_baby, morality_dist_baby, pain_dist_baby, personality_dist_baby, planning_dist_baby, pleasure_dist_baby, pride_dist_baby, rage_dist_baby, selfcontrol_dist_baby, thought_dist_baby)
+colnames(dist_baby) = tolower(levels(d$condition))
+
