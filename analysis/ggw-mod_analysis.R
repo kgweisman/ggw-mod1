@@ -176,7 +176,7 @@ qplot(demo$age)
 # education
 levels(demo$education) = c("hs_some", "hs_diploma", "college_some", 
                      "college_assocDegree", "college_bachDegree",
-                     "grad_some", "grad_degree")
+                     "grad_some", "grad_degree", "other_prefNo")
 demo %>% count(education)
 
 # englishNative
