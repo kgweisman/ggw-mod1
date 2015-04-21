@@ -45,15 +45,6 @@ glimpse(dd)
 # 
 # View(dd %>% group_by(subid) %>% summarise(trials_completed = length(log_rt)))
 
-# --- FILTERING BY COMPREHENSION CHECK ----------------------------------------
-
-# NOTE: currently only works for india run 03 and on!
-d_comp2 = d %>% filter (compCheckCount < 2)
-dd_comp2 = dd %>% filter (compCheckCount < 2)
-
-d = d_comp2
-dd = dd_comp2
-
 # --- FILTERING BY COUNTRY ----------------------------------------------------
 
 d_us = d %>% filter(country == "us")
@@ -67,9 +58,21 @@ dd_india = dd %>% filter(country == "india")
 # d = d_us
 # dd = dd_us
 
-# ... to India:
-d = d_india
-dd = dd_india
+# # ... to India:
+# d = d_india
+# dd = dd_india
+
+# --- FILTERING BY COMPREHENSION CHECK ----------------------------------------
+
+# NOTE: currently only works for india run 03 and on!
+d_comp2 = d %>% filter(compCheckCount < 2)
+dd_comp2 = dd %>% filter(compCheckCount < 2)
+
+# d = d_comp2
+# dd = dd_comp2
+
+# d_india = d_india %>% filter(compCheckCount < 2)
+# dd_india = dd_india %>% filter(compCheckCount < 2)
 
 # --- FILTERING BY ETHNICITY --------------------------------------------------
 
