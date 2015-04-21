@@ -58,9 +58,9 @@ dd_india = dd %>% filter(country == "india")
 # d = d_us
 # dd = dd_us
 
-# # ... to India:
-# d = d_india
-# dd = dd_india
+# ... to India:
+d = d_india
+dd = dd_india
 
 # --- FILTERING BY COMPREHENSION CHECK ----------------------------------------
 
@@ -347,6 +347,23 @@ ggplot(data.frame(pca_A2$scores),
   labs(title = "Adjusted character factor scores\n",
        x = "\nRotated Component 1, rescaled",
        y = "Rotated Component 2, rescaled\n")
+
+# # re-plot characters with rescaling (as in GGW2007 original), PC1 on x-axis
+# ggplot(data.frame(pca_A2$scores), 
+#        aes(x = rescale(RC2, to = c(0,1)), 
+#            y = rescale(RC1, to = c(0,1)), 
+#            label = rownames(d1))) +
+#   geom_point() +
+#   geom_text(angle = 0,
+#             vjust = -1,
+#             size = 6) +
+#   xlim(-0.01, 1.01) +
+#   ylim(-0.01, 1.01) +
+#   theme_bw() +
+#   theme(text = element_text(size = 20)) +
+#   labs(title = "Adjusted character factor scores\n",
+#        x = "\nRotated Component 2, rescaled",
+#        y = "Rotated Component 1, rescaled\n")
 
 # --------> 1-factor PCA (varimax rotation, using principal) ----------
 # extract factors
