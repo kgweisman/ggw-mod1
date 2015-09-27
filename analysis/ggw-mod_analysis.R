@@ -54,19 +54,19 @@ d_india = d %>% filter(country == "india")
 dd_india = dd %>% filter(country == "india")
 
 # set group of interest
-# # ... to US:
-# d = d_us
-# dd = dd_us
+# ... to US:
+d = d_us
+dd = dd_us
 
-# ... to India:
-d = d_india
-dd = dd_india
+# # ... to India:
+# d = d_india
+# dd = dd_india
 
 # --- FILTERING BY COMPREHENSION CHECK ----------------------------------------
 
-# NOTE: currently only works for india run 03 and on!
-d_comp2 = d %>% filter(compCheckCount < 2)
-dd_comp2 = dd %>% filter(compCheckCount < 2)
+# # NOTE: currently only works for india run 03 and on!
+# d_comp2 = d %>% filter(compCheckCount < 2)
+# dd_comp2 = dd %>% filter(compCheckCount < 2)
 
 # d = d_comp2
 # dd = dd_comp2
@@ -311,7 +311,7 @@ pca_A2_pc2 = pca_A2$loadings[,2]; sort(pca_A2_pc2)
 
 # plot PCs against each other
 # NOTE: need to adjust "1:18" depending on how many conditions are run
-ggplot(data.frame(pca_A2$loadings[1:18,]), aes(x = RC1, y = RC2, label = names(d1))) +
+ggplot(data.frame(pca_A2$loadings[1:18,]), aes(x = PC1, y = PC2, label = names(d1))) +
   geom_text() +
   theme_bw() +
   labs(title = "Factor loadings\n",
@@ -322,7 +322,7 @@ ggplot(data.frame(pca_A2$loadings[1:18,]), aes(x = RC1, y = RC2, label = names(d
 # ?principal confirms that "component scores are found by regression"
 
 # plot characters by principal components
-ggplot(data.frame(pca_A2$scores), aes(x = RC1, y = RC2, label = rownames(d1))) +
+ggplot(data.frame(pca_A2$scores), aes(x = PC1, y = PC2, label = rownames(d1))) +
   geom_text() +
   theme_bw() +
   labs(title = "Raw character factor scores\n",
@@ -333,8 +333,8 @@ ggplot(data.frame(pca_A2$scores), aes(x = RC1, y = RC2, label = rownames(d1))) +
 
 # re-plot characters with rescaling (as in GGW2007 original), PC1 on y-axis
 ggplot(data.frame(pca_A2$scores), 
-       aes(x = rescale(RC1, to = c(0,1)), 
-           y = rescale(RC2, to = c(0,1)), 
+       aes(x = rescale(PC1, to = c(0,1)), 
+           y = rescale(PC2, to = c(0,1)), 
            label = rownames(d1))) +
   geom_point() +
   geom_text(angle = 0,
@@ -1465,7 +1465,7 @@ for(i in 1:12) {
 
 dissim_hunger = as.dist(dissim_hunger)
 
-# --------------->-> condition: JOY =------------------------------------------
+# --------------->-> condition: JOY -------------------------------------------
 
 dissim_joy = NULL
 
