@@ -339,7 +339,7 @@ ggplot(data.frame(pca_A2$scores),
   geom_point() +
   geom_text(angle = 0,
             vjust = -1,
-            size = 6) +
+            size = 7) +
   xlim(-0.01, 1.01) +
   ylim(-0.01, 1.01) +
   theme_bw() +
@@ -922,6 +922,30 @@ plot(mds_Aordinal,
 # arrows(-.45, -.35, -.45+(.5/5), -.35-(.75/5), col = "red")
 # text(-.2, -.6, "+ agency", col = "red")
 
+# plot (ggplot)
+conf_Aordinal <- data.frame(mds_Aordinal$conf) %>%
+  add_rownames(var = "character")
+xRange_Aordinal <- range(conf_Aordinal$D1)
+yRange_Aordinal <- range(conf_Aordinal$D2)
+
+ggplot(aes(x = D1, y = D2, label = character), 
+       data = conf_Aordinal) +
+  theme_bw() +
+  theme(text = element_text(size = 20),
+        # axis.title = element_blank(),
+        legend.position = "none",
+        panel.border = element_rect(size = 2)) +
+  geom_point(size = 5) +
+  geom_text(vjust = -1, size = 7) +
+  labs(x = "Dimension 1", y = "Dimension 2",
+       title = "MDS Solution: All predicates\n") +
+  xlim(c(-1, 1)) +
+  ylim(c(-1, 1)) +
+  scale_color_brewer(type = "qual", palette = 6)
+#   xlim(c(xRange_Aordinal[1] - 0.10*(xRange_Aordinal[2]-xRange_Aordinal[1])),
+#        xRange_Aordinal[2] + 0.10*(xRange_Aordinal[2]-xRange_Aordinal[1])) +
+#   ylim(c(yRange_Aordinal[1] - 0.05*(yRange_Aordinal[2]-yRange_Aordinal[1])),
+#        yRange_Aordinal[2] + 0.15*(yRange_Aordinal[2]-yRange_Aordinal[1]))
 
 # plot space and stress (bigger bubble = better fit)
 plot(mds_Aordinal, plot.type = "bubbleplot",
@@ -2556,3 +2580,104 @@ plot(mds_thought_Aordinal,
 # stop plotting in 2x2 grid
 # par(mfrow = c(1,1))
 
+# --------------->-> ggplot for target mental capacities ----------------------
+
+# hunger
+conf_hunger_Aordinal <- data.frame(mds_hunger_Aordinal$conf) %>%
+  add_rownames(var = "character")
+xRange_hunger_Aordinal <- range(conf_hunger_Aordinal$D1)
+yRange_hunger_Aordinal <- range(conf_hunger_Aordinal$D2)
+
+ggplot(aes(x = D1, y = D2, label = character), 
+       data = conf_hunger_Aordinal) +
+  theme_bw() +
+  theme(text = element_text(size = 20),
+        # axis.title = element_blank(),
+        legend.position = "none",
+        panel.border = element_rect(size = 2)) +
+  geom_point(size = 5) +
+  geom_text(vjust = -1, size = 7) +
+  labs(x = "Dimension 1", y = "Dimension 2",
+     title = "MDS Solution: HUNGER\n") +
+  xlim(c(-1, 1)) +
+  ylim(c(-1, 1)) +
+  scale_color_brewer(type = "qual", palette = 6)
+#   xlim(c(xRange_hunger_Aordinal[1] - 0.10*(xRange_hunger_Aordinal[2]-xRange_hunger_Aordinal[1])),
+#        xRange_hunger_Aordinal[2] + 0.10*(xRange_hunger_Aordinal[2]-xRange_hunger_Aordinal[1])) +
+#   ylim(c(yRange_hunger_Aordinal[1] - 0.05*(yRange_hunger_Aordinal[2]-yRange_hunger_Aordinal[1])),
+#        yRange_hunger_Aordinal[2] + 0.15*(yRange_hunger_Aordinal[2]-yRange_hunger_Aordinal[1]))
+
+# joy
+conf_joy_Aordinal <- data.frame(mds_joy_Aordinal$conf) %>%
+  add_rownames(var = "character")
+xRange_joy_Aordinal <- range(conf_joy_Aordinal$D1)
+yRange_joy_Aordinal <- range(conf_joy_Aordinal$D2)
+
+ggplot(aes(x = D1, y = D2, label = character), 
+       data = conf_joy_Aordinal) +
+  theme_bw() +
+  theme(text = element_text(size = 20),
+        # axis.title = element_blank(),
+        legend.position = "none",
+        panel.border = element_rect(size = 2)) +
+  geom_point(size = 5) +
+  geom_text(vjust = -1, size = 7) +
+  labs(x = "Dimension 1", y = "Dimension 2",
+       title = "MDS Solution: JOY\n") +
+  xlim(c(-1, 1)) +
+  ylim(c(-1, 1)) +
+  scale_color_brewer(type = "qual", palette = 6)
+#   xlim(c(xRange_joy_Aordinal[1] - 0.10*(xRange_joy_Aordinal[2]-xRange_joy_Aordinal[1])),
+#        xRange_joy_Aordinal[2] + 0.10*(xRange_joy_Aordinal[2]-xRange_joy_Aordinal[1])) +
+#   ylim(c(yRange_joy_Aordinal[1] - 0.05*(yRange_joy_Aordinal[2]-yRange_joy_Aordinal[1])),
+#        yRange_joy_Aordinal[2] + 0.15*(yRange_joy_Aordinal[2]-yRange_joy_Aordinal[1]))
+
+# fear
+conf_fear_Aordinal <- data.frame(mds_fear_Aordinal$conf) %>%
+  add_rownames(var = "character")
+xRange_fear_Aordinal <- range(conf_fear_Aordinal$D1)
+yRange_fear_Aordinal <- range(conf_fear_Aordinal$D2)
+
+ggplot(aes(x = D1, y = D2, label = character), 
+       data = conf_fear_Aordinal) +
+  theme_bw() +
+  theme(text = element_text(size = 20),
+        # axis.title = element_blank(),
+        legend.position = "none",
+        panel.border = element_rect(size = 2)) +
+  geom_point(size = 5) +
+  geom_text(vjust = -1, size = 7) +
+  labs(x = "Dimension 1", y = "Dimension 2",
+       title = "MDS Solution: FEAR\n") +
+  xlim(c(-1, 1)) +
+  ylim(c(-1, 1)) +
+  scale_color_brewer(type = "qual", palette = 6)
+#   xlim(c(xRange_fear_Aordinal[1] - 0.10*(xRange_fear_Aordinal[2]-xRange_fear_Aordinal[1])),
+#        xRange_fear_Aordinal[2] + 0.10*(xRange_fear_Aordinal[2]-xRange_fear_Aordinal[1])) +
+#   ylim(c(yRange_fear_Aordinal[1] - 0.05*(yRange_fear_Aordinal[2]-yRange_fear_Aordinal[1])),
+#        yRange_fear_Aordinal[2] + 0.15*(yRange_fear_Aordinal[2]-yRange_fear_Aordinal[1]))
+
+# thought
+conf_thought_Aordinal <- data.frame(mds_thought_Aordinal$conf) %>%
+  add_rownames(var = "character")
+xRange_thought_Aordinal <- range(conf_thought_Aordinal$D1)
+yRange_thought_Aordinal <- range(conf_thought_Aordinal$D2)
+
+ggplot(aes(x = D1, y = D2, label = character), 
+       data = conf_thought_Aordinal) +
+  theme_bw() +
+  theme(text = element_text(size = 20),
+        # axis.title = element_blank(),
+        legend.position = "none",
+        panel.border = element_rect(size = 2)) +
+  geom_point(size = 5) +
+  geom_text(vjust = -1, size = 7) +
+  labs(x = "Dimension 1", y = "Dimension 2",
+       title = "MDS Solution: THOUGHT\n") +
+  xlim(c(-1, 1)) +
+  ylim(c(-1, 1)) +
+  scale_color_brewer(type = "qual", palette = 6)
+#   xlim(c(xRange_thought_Aordinal[1] - 0.10*(xRange_thought_Aordinal[2]-xRange_thought_Aordinal[1])),
+#        xRange_thought_Aordinal[2] + 0.10*(xRange_thought_Aordinal[2]-xRange_thought_Aordinal[1])) +
+#   ylim(c(yRange_thought_Aordinal[1] - 0.05*(yRange_thought_Aordinal[2]-yRange_thought_Aordinal[1])),
+#        yRange_thought_Aordinal[2] + 0.15*(yRange_thought_Aordinal[2]-yRange_thought_Aordinal[1]))
