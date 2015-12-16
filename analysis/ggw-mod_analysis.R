@@ -298,7 +298,8 @@ pca_A4_pc4 = pca_A4$loadings[,4]; sort(pca_A4_pc4)
 # FROM GGW2007: "For each survey, each character appeared in 12 different comparisons, and mean relative ratings were computed for each character across all respondents to that survey. We merged data sets from the 18 mental capacity surveys to compute correlations between mental capacities across the characters, and submitted these to principal components factor analysis with varimax rotation." (SOM p. 3)
 
 # extract factors
-pca_A2 = principal(d1, nfactors = 2, rotate = "varimax"); pca_A2
+# pca_A2 = principal(d1, nfactors = 2, rotate = "varimax"); pca_A2
+pca_A2 = principal(d1, nfactors = 2, rotate = "none"); pca_A2
 
 # extract eigenvalues
 pca_A2$values
