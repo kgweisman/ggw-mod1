@@ -180,7 +180,7 @@ d_tidy = d_us_pilot_A %>%
     country = factor(ifelse(grepl("india", subid) == T, "india", 
                             ifelse(grepl("us", subid) == T, "us",
                                    NA))),
-    condition = gsub(" ", "_", condition),
+    condition = tolower(gsub(" ", "_", condition)),
     condition = factor(condition),
     compCheckFree = factor(ifelse(compCheckFree == "NA", NA, compCheckFree)),
     compCheckMulti = factor(ifelse(compCheckMulti == "NA", NA, compCheckMulti)),
