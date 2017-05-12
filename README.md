@@ -1,2 +1,2 @@
-# ggw-mod1
-Modification of Gray, Gray, &amp; Wegner (2007, Science): no character descriptions
+# ggw-mod1b
+Modification of Gray, Gray, & Wegner (2007, Science): no character descriptions, 40 different mental capacities
