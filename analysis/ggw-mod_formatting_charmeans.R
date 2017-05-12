@@ -158,50 +158,21 @@ jsonFormatCharmeans = function(wd, runName) {
 
 # --- READING IN DATA OBJECTS -------------------------------------------------
 
-# US run 01 (2015-03-13)
-d_us_run_01 = jsonFormatCharmeans(
-  wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/turk/run-01/",
-  runName = "us_run_01")
+# pilot A (2017-05-11)
+d_us_pilot_A = jsonFormatCharmeans(
+  wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/turk/pilot-A/",
+  runName = "d_us_pilot_A")
 
-# US run 02 (2015-03-16)
-d_us_run_02 = jsonFormatCharmeans(
-  wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/turk/run-02/",
-  runName = "us_run_02")
-
-# US run 03 (2015-03-26)
-d_us_run_03 = jsonFormatCharmeans(
-  wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/turk/run-03/",
-  runName = "us_run_03")
-
-# US run 04 (2015-03-26)
-d_us_run_04 = jsonFormatCharmeans(
-  wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/turk/run-04/",
-  runName = "us_run_04")
-
-# India run 01 (2015-04-17)
-d_india_run_01 = jsonFormatCharmeans(
-  wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1_india/turk/india_run-01/",
-  runName = "india_run_01")
-
-# India run 02 (2015-04-18)
-d_india_run_02 = jsonFormatCharmeans(
-  wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1_india/turk/india_run-02/",
-  runName = "india_run_02")
-
-# India run 03 (2015-04-19)
-d_india_run_03 = jsonFormatCharmeans(
-  wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1_india/turk/india_run-03/",
-  runName = "india_run_03")
+# # US run 01 (2017-05-12)
+# d_us_run_01 = jsonFormatCharmeans(
+#   wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/turk/run-01/",
+#   runName = "us_run_01")
 
 # --- TIDYING -----------------------------------------------------------------
 
 # clean up variables
-d_tidy = full_join(d_us_run_01, d_us_run_02) %>%
-  full_join(d_us_run_03) %>%
-  full_join(d_us_run_04) %>%
-  full_join(d_india_run_01) %>%
-  full_join(d_india_run_02) %>%
-  full_join(d_india_run_03) %>%  
+d_tidy = d_us_pilot_A %>%
+  # full_join(d_us_run_01) %>%
   mutate(
     run = factor(run),
     subid = factor(subid),
@@ -209,8 +180,7 @@ d_tidy = full_join(d_us_run_01, d_us_run_02) %>%
     country = factor(ifelse(grepl("india", subid) == T, "india", 
                             ifelse(grepl("us", subid) == T, "us",
                                    NA))),
-    condition = ifelse(condition == "Emotion Recognition", "EmotionRecognition",
-                       condition),
+    condition = gsub(" ", "_", condition),
     condition = factor(condition),
     compCheckFree = factor(ifelse(compCheckFree == "NA", NA, compCheckFree)),
     compCheckMulti = factor(ifelse(compCheckMulti == "NA", NA, compCheckMulti)),
@@ -241,7 +211,7 @@ d_tidy = full_join(d_us_run_01, d_us_run_02) %>%
 glimpse(d_tidy)
 
 # write to de-identified csv file
-write.csv(d_tidy, "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04&india01_2015-04-17_charmeans.csv")
+write.csv(d_tidy, "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/data/pilot_A_2017-05-11_charmeans.csv")
 
-d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1/data/run-01&02&03&04&india01_2015-04-17_charmeans.csv")[-1] # get rid of column of obs numbers
+d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/data/pilot_A_2017-05-11_charmeans.csv")[-1] # get rid of column of obs numbers
 
