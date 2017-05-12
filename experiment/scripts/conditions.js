@@ -25,7 +25,7 @@ addCondition("feeling nauseated", "feeling nauseated");
 addCondition("getting angry", "getting angry");
 addCondition("having intentions", "having intentions");
 addCondition("being self-aware", "being self-aware");
-addCondition("Detecting odors", "detecting odors");
+addCondition("detecting odors", "detecting odors");
 addCondition("feeling embarrassed", "feeling embarrassed");
 addCondition("experiencing pride", "experiencing pride");
 addCondition("feeling love", "feeling love");
