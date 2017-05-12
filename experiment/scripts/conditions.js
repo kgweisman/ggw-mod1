@@ -48,7 +48,7 @@ addCondition("working toward a goal", "working toward a goal");
 addCondition("perceiving depth", "perceiving depth");
 addCondition("detecting sounds", "detecting sounds");
 addCondition("seeing things", "seeing things");
-addCondition("making things", "making things");
+addCondition("making choices", "making choices");
 addCondition("reasoning about things", "reasoning about things");
 
 // set up button behaviors for surveys slide
