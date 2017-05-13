@@ -158,16 +158,16 @@ d_us_pilot_A = jsonFormat(
   wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/turk/pilot-A/",
   runName = "d_us_pilot_A")
 
-# # US run 01 (2017-05-12)
-# d_us_run_01 = jsonFormat(
-#   wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/turk/run-01/",
-#   runName = "us_run_01")
+# US run 01 (2017-05-12)
+d_us_run_01 = jsonFormat(
+  wd = "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/turk/run-01/",
+  runName = "us_run_01")
 
 # --- TIDYING -----------------------------------------------------------------
 
 # clean up variables
-d_tidy = d_us_pilot_A %>%
-  # full_join(d_us_run_01) %>%
+d_tidy = d_us_run_01 %>%
+  # full_join(d_us_pilot_A) %>%
   mutate(
     run = factor(run),
     subid = factor(subid),
@@ -217,15 +217,15 @@ glimpse(d_tidy)
 # --- WRITING ANONYMIZED CSV --------------------------------------------------
 
 # write to de-identified csv file
-write.csv(d_tidy, "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/data/pilot_A_2017-05-11_data_anonymized.csv")
+write.csv(d_tidy, "/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/data/run-01_2017-05-12_data_anonymized.csv")
 
-d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/data/pilot_A_2017-05-11_data_anonymized.csv")[-1] # get rid of column of obs numbers
+d = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/data/run-01_2017-05-12_data_anonymized.csv")[-1] # get rid of column of obs numbers
 
-# # view comments
-# comments = d %>%
-# #   filter(country == "india") %>%
-#   select(comments, condition, subid) %>%
-#   distinct() %>%
-#   filter(comments != "NA")
-# 
-# View(comments)
+# view comments
+comments = d %>%
+#   filter(country == "india") %>%
+  select(comments, condition, subid) %>%
+  distinct() %>%
+  filter(comments != "NA")
+
+# comments$comments
