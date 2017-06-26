@@ -1,8 +1,8 @@
 library(stats)
 library(pracma)
 
-ncomp <- 5
-# ncomp <- 2
+# ncomp <- 5
+ncomp <- 2
 # ncomp <- 1
 
 pca_temp        <- prcomp(d1)
@@ -14,3 +14,4 @@ print(scores)                   # Scores computed via rotated loadings
 
 fa.sort(rawLoadings)
 fa.sort(rotatedLoadings)
+round(fa.sort(rotatedLoadings), 2)*-1

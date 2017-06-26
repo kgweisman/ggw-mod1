@@ -30,6 +30,7 @@ glimpse(d)
 
 # read in data: individual scores
 dd = read.csv("/Users/kweisman/Documents/Research (Stanford)/Projects/GGW-mod/ggw-mod1b/data/run-01_2017-05-12_data_anonymized.csv")[-1] %>% # get rid of column of obs numbers
+  distinct()
 
 glimpse(dd)
 
@@ -279,62 +280,50 @@ dd %>% group_by(condition) %>% distinct(subid) %>% summarise(n = length(subid))
 # NOTES: 
 # - should look again at >2 factors when we have more data
 # - good resource: http://www.colorado.edu/geography/class_homepages/geog_4023_s11/Lecture18_PCA.pdf
+# - principal() doesn't work anymore - returns red flags re: use of PCA (correlation matrix computationally singular, etc.)
 
-# # --------> 4-factor (maximal) PCA (UNrotated, using principal) ----------
-# 
-# # extract factors
-# pca_A4 = principal(d1, nfactors = 4, rotate = "none"); pca_A4
-# # retain components with prop var > 5-10%
-# # retain components with cumulative prop var > 70% (... but < 100%?)
-# 
-# # extract eigenvalues
-# pca_A4$values 
-# # retain components with eigenvalues > 1
-# 
-# # scree test
-# qplot(y = pca_A4$values) +
-#   theme_bw() +
-#   labs(title = "Scree test for 4-factor (maximal) PCA",
-#        x = "Component",
-#        y = "Eigenvalue") +
-#   geom_line() 
-# # retain components left of "break"
-# 
-# # extract PCA loadings
-# pca_A4_pc1 = pca_A4$loadings[,1]; sort(pca_A4_pc1)
-# pca_A4_pc2 = pca_A4$loadings[,2]; sort(pca_A4_pc2)
-# pca_A4_pc3 = pca_A4$loadings[,3]; sort(pca_A4_pc3)
-# pca_A4_pc4 = pca_A4$loadings[,4]; sort(pca_A4_pc4)
-# 
-# # --------> 2-factor PCA (varimax rotation, using principal) ----------
-# 
-# # FROM GGW2007: "For each survey, each character appeared in 12 different comparisons, and mean relative ratings were computed for each character across all respondents to that survey. We merged data sets from the 18 mental capacity surveys to compute correlations between mental capacities across the characters, and submitted these to principal components factor analysis with varimax rotation." (SOM p. 3)
-# 
-# # extract factors
-# # pca_A2 = principal(d1, nfactors = 2, rotate = "varimax"); pca_A2
-# pca_A2 = principal(d1, nfactors = 2, rotate = "none"); pca_A2
-# 
-# # extract eigenvalues
-# pca_A2$values
-# 
-# # extract PCA loadings
-# pca_A2_pc1 = pca_A2$loadings[,1]; sort(pca_A2_pc1)
-# pca_A2_pc2 = pca_A2$loadings[,2]; sort(pca_A2_pc2)
-# 
-# # --------------->-> plots ----------------------------------------------------
-# 
-# # plot PCs against each other
-# # NOTE: need to adjust "1:18" depending on how many conditions are run
-# ggplot(loadings(pca_A2)[] %>% data.frame(), 
-#        aes(x = PC1, y = PC2, label = names(d1))) +
-#   geom_text() +
-#   theme_bw() +
-#   labs(title = "Factor loadings\n",
-#        x = "\nRotated Component 2",
-#        y = "Rotated Component 1\n")
-# 
+# --------> 4-factor (maximal) PCA (UNrotated, using principal) ----------
+
+# extract factors
+pca_A4 = prcomp(d1, scale = T); pca_A4
+# retain components with prop var > 5-10%
+# retain components with cumulative prop var > 70% (... but < 100%?)
+
+# extract eigenvalues
+pca_A4$sdev^2
+# retain components with eigenvalues > 1
+
+# scree test
+qplot(y = pca_A4$sdev^2) +
+  theme_bw() +
+  labs(title = "Scree test for 4-factor (maximal) PCA",
+       x = "Component",
+       y = "Eigenvalue") +
+  geom_line() +
+  geom_hline(yintercept = 1, lty = 3)
+# retain components left of "break"
+
+# extract PCA loadings
+pca_A4_pc1 = pca_A4$x[,1]; sort(pca_A4_pc1)
+pca_A4_pc2 = pca_A4$x[,2]; sort(pca_A4_pc2)
+pca_A4_pc3 = pca_A4$x[,3]; sort(pca_A4_pc3)
+pca_A4_pc4 = pca_A4$x[,4]; sort(pca_A4_pc4)
+
+# do varimax rotation (from https://stats.stackexchange.com/questions/59213/how-to-compute-varimax-rotated-principal-components-in-r)
+# n_comp <- 13 # maximal solution
+n_comp <- 2 # 2-factors
+pca_A4          <- prcomp(d1, scale=T)
+rawLoadings     <- pca_A4$rotation[,1:n_comp] %*% diag(pca_A4$sdev, n_comp, n_comp)
+rotatedLoadings <- varimax(rawLoadings)$loadings
+invLoadings     <- t(pracma::pinv(rotatedLoadings))
+scores          <- scale(d1) %*% invLoadings # Scores computed via rotated loadings
+
+# --------------->-> plots ----------------------------------------------------
+
+# plot PCs against each other
+biplot(pca_A4)
+
 # # FROM GGW2007: "We used the regression approach to estimate factor scores for each character." (SOM p. 3) 
-# # ?principal confirms that "component scores are found by regression"
 # 
 # # plot characters by principal components
 # ggplot(data.frame(pca_A2$scores), aes(x = PC1, y = PC2, label = rownames(d1))) +
